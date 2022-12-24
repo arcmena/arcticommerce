@@ -1,34 +1,14 @@
 import Head from 'next/head'
 import Image from 'next/image'
+import { GetServerSideProps } from 'next'
 import { Inter } from '@next/font/google'
 import styles from '../styles/Home.module.css'
-import { GetServerSideProps } from 'next'
-import { gql, GraphQLClient } from 'graphql-request'
 
-const SHOPIFY_API_URL = process.env.SHOPIFY_API_URL || ''
-const SHOPIFY_STOREFRONT_ACCESS_TOKEN =
-  process.env.SHOPIFY_STOREFRONT_ACCESS_TOKEN || ''
-
-const client = new GraphQLClient(SHOPIFY_API_URL, {
-  headers: {
-    'X-Shopify-Storefront-Access-Token': SHOPIFY_STOREFRONT_ACCESS_TOKEN
-  }
-})
-
-const productsQuery = gql`
-  {
-    products(first: 5) {
-      edges {
-        node {
-          id
-        }
-      }
-    }
-  }
-`
+import { productsQuery } from '../shopify/queries/productsQuery'
+import { shopifyClient } from '../shopify/client'
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const products = await client.request(productsQuery)
+  const products = await shopifyClient.request(productsQuery)
 
   return {
     props: {
