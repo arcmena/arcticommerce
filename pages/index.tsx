@@ -2,10 +2,46 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from '@next/font/google'
 import styles from '../styles/Home.module.css'
+import { GetServerSideProps } from 'next'
+import { gql, GraphQLClient } from 'graphql-request'
+
+const SHOPIFY_API_URL = process.env.SHOPIFY_API_URL || ''
+const SHOPIFY_STOREFRONT_ACCESS_TOKEN =
+  process.env.SHOPIFY_STOREFRONT_ACCESS_TOKEN || ''
+
+const client = new GraphQLClient(SHOPIFY_API_URL, {
+  headers: {
+    'X-Shopify-Storefront-Access-Token': SHOPIFY_STOREFRONT_ACCESS_TOKEN
+  }
+})
+
+const productsQuery = gql`
+  {
+    products(first: 5) {
+      edges {
+        node {
+          id
+        }
+      }
+    }
+  }
+`
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  const products = await client.request(productsQuery)
+
+  return {
+    props: {
+      products
+    }
+  }
+}
 
 const inter = Inter({ subsets: ['latin'] })
 
-export default function Home() {
+const Home = ({ products }: { products: any }) => {
+  console.log({ products })
+
   return (
     <>
       <Head>
@@ -121,3 +157,5 @@ export default function Home() {
     </>
   )
 }
+
+export default Home
