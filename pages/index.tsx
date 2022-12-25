@@ -1,27 +1,34 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import { GetServerSideProps } from 'next'
-import { Inter } from '@next/font/google'
+import Link from 'next/link'
+import { GetServerSideProps } from 'next/types'
 import styles from '../styles/Home.module.css'
 
 import { productsQuery } from '../shopify/queries/productsQuery'
 import { shopifyClient } from '../shopify/client'
+import { Product, Entities } from '../shopify/schema'
+
+type ProductsResultType = {
+  products?: Entities<Product>
+}
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const products = await shopifyClient.request(productsQuery)
+  const productsResult = await shopifyClient.request<ProductsResultType>(
+    productsQuery
+  )
 
   return {
     props: {
-      products
+      productsResult: productsResult.products
     }
   }
 }
 
-const inter = Inter({ subsets: ['latin'] })
+type HomePageProps = {
+  productsResult?: Entities<Product>
+}
 
-const Home = ({ products }: { products: any }) => {
-  console.log({ products })
-
+const HomePage = ({ productsResult }: HomePageProps) => {
   return (
     <>
       <Head>
@@ -76,66 +83,22 @@ const Home = ({ products }: { products: any }) => {
         </div>
 
         <div className={styles.grid}>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Docs <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Find in-depth information about Next.js features and&nbsp;API.
-            </p>
-          </a>
-
-          <a
-            href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Learn <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Learn about Next.js in an interactive course with&nbsp;quizzes!
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Templates <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Discover and deploy boilerplate example Next.js&nbsp;projects.
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Deploy <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Instantly deploy your Next.js site to a shareable URL
-              with&nbsp;Vercel.
-            </p>
-          </a>
+          {productsResult?.edges.map(({ node }) => (
+            <Link
+              key={node.id}
+              href={`/product/${node.handle}`}
+              className={styles.card}
+            >
+              <h2>
+                {node.title} <span>-&gt;</span>
+              </h2>
+              <p>{node.description}</p>
+            </Link>
+          ))}
         </div>
       </main>
     </>
   )
 }
 
-export default Home
+export default HomePage

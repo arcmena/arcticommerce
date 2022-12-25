@@ -1,4 +1,4 @@
-import { gql, GraphQLClient } from 'graphql-request'
+import { GraphQLClient } from 'graphql-request'
 
 const SHOPIFY_API_URL = process.env.SHOPIFY_API_URL || ''
 const SHOPIFY_STOREFRONT_ACCESS_TOKEN =

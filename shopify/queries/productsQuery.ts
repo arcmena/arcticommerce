@@ -6,9 +6,21 @@ const productsQuery = gql`
       edges {
         node {
           id
+          handle
+          title
+          description
+          images(first: 1) {
+            edges {
+              node {
+                url
+                altText
+              }
+            }
+          }
         }
       }
     }
   }
 `
+
 export { productsQuery }
