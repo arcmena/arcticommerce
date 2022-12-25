@@ -2,9 +2,9 @@ import { GetServerSideProps } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 
-import { shopifyClient } from '../../shopify/client'
-import { productDetailQuery } from '../../shopify/queries/productDetailQuery'
-import { ProductWithVariants } from '../../shopify/schema'
+import { shopifyClient } from '@shopify/client'
+import { productDetailQuery } from '@shopify/queries/productDetailQuery'
+import { ProductWithVariants } from '@shopify/schema'
 
 type ProductDetailResultType = {
   productByHandle?: ProductWithVariants
@@ -48,7 +48,7 @@ const PDP = ({ productResult }: ProductDetailPageProps) => {
         <div className="col-span-3">
           <Image
             src={productResult.images.edges[0].node.url}
-            alt={productResult.images.edges[0].node.altText}
+            alt={productResult.images.edges[0].node.altText || ''}
             width={1000}
             height={1000}
           />
