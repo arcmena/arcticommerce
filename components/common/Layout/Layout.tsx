@@ -1,4 +1,5 @@
 import { ReactNode } from 'react'
+import Header from '../Header'
 
 type LayoutProps = {
   children: ReactNode
@@ -6,8 +7,8 @@ type LayoutProps = {
 
 const Layout = ({ children }: LayoutProps) => {
   return (
-    <div>
-      <header>header</header>
+    <div className="bg-white w-full h-full">
+      <Header />
       <main>{children}</main>
       <footer>footer</footer>
     </div>
