@@ -62,5 +62,5 @@ export interface EntityNode<T> {
 }
 
 export interface Entities<T> {
-  edges: [EntityNode<T>]
+  edges: Array<EntityNode<T>>
 }

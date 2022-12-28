@@ -16,6 +16,7 @@ import {
   getCheckout,
   GetCheckoutResult
 } from '@shopify/operations/checkout/getCheckout'
+import { checkoutLineItemAdd } from '@shopify/operations/checkout/checkoutLineItemsAdd'
 import { Checkout } from '@shopify/schema'
 
 type CartContextType = {
@@ -44,19 +45,19 @@ const CartProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
   const addProductToCart = useCallback(
     async (productId: string) => {
-      let cartData: Checkout | undefined
+      let newCartData: Checkout | undefined
 
       const checkoutId = getCheckoutId()
 
       if (checkoutId) {
-        // TODO: add tratative if a user already has a checkoutId
+        const checkoutUpdated = await checkoutLineItemAdd(productId)
+        newCartData = checkoutUpdated?.checkout
       } else {
         const checkoutCreated = await checkoutCreate(productId)
-
-        cartData = checkoutCreated.checkout
+        newCartData = checkoutCreated.checkout
       }
 
-      mutateCart({ node: cartData })
+      mutateCart({ node: newCartData }, { revalidate: false })
 
       openCartSidebar()
     },

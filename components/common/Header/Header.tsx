@@ -2,11 +2,15 @@ import { Bars3Icon, ChevronDownIcon } from '@heroicons/react/24/solid'
 import Image from 'next/image'
 
 import { useLayout } from '../Layout/Context'
+import { useCart } from '../Cart/Context'
 
 const LOGO_PATH = '/logo.webp'
 
 const Header = () => {
   const { openMenuSidebar, openCartSidebar } = useLayout()
+  const { cartData } = useCart()
+
+  const cartItemsCount = cartData?.node?.lineItems.edges.length
 
   return (
     <header className="p-4 md:py-8 md:px-12 border-b-2 border-gray-100">
@@ -46,7 +50,7 @@ const Header = () => {
             className="md:p-4 text-black text-[13px] font-light tracking-widest"
             onClick={openCartSidebar}
           >
-            CART
+            CART {cartItemsCount && `(${cartItemsCount})`}
           </a>
         </div>
       </div>
