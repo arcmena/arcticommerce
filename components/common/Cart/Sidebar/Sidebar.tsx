@@ -1,6 +1,7 @@
 import Sidebar from '@components/Elements/Sidebar'
 import { SIDEBAR_ORIENTATION } from '@components/Elements/Sidebar/Sidebar'
 import { useLayout } from '../../Layout/Context'
+import { useCart } from '../Context'
 
 const NoItemsMessage = () => (
   <div className="text-center">
@@ -14,6 +15,9 @@ const NoItemsMessage = () => (
 
 const CartSidebar = () => {
   const { isCartSidebarOpen, closeCartSidebar } = useLayout()
+  const { cartData } = useCart()
+
+  // TODO: check if it's needed to have a revalidation on the cart on every open
 
   return (
     <Sidebar
@@ -26,7 +30,12 @@ const CartSidebar = () => {
           <h2 className="text-[22px]">Your Cart</h2>
         </div>
 
-        <NoItemsMessage />
+        {!cartData && <NoItemsMessage />}
+        {cartData?.node?.lineItems.edges.map(item => (
+          <div key={item.node.id}>
+            <span>{item.node.title}</span>
+          </div>
+        ))}
       </div>
     </Sidebar>
   )

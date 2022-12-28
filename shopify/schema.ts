@@ -54,7 +54,7 @@ export interface Checkout {
   createdAt: string
   totalPrice: ProductPrice
   subtotalPrice: ProductPrice
-  lineItems: Entities<{}>
+  lineItems: Entities<CheckoutLineItem>
 }
 
 export interface EntityNode<T> {

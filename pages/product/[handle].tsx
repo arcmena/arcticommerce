@@ -52,8 +52,6 @@ const PDP = ({ productResult }: ProductDetailPageProps) => {
     await addProductToCart(id)
   }
 
-  console.log({ productResult, activeVariant })
-
   return (
     <>
       <Head>
