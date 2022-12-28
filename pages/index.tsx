@@ -5,6 +5,7 @@ import { GetServerSideProps } from 'next/types'
 import { productsQuery } from '@shopify/queries/productsQuery'
 import { shopifyClient } from '@shopify/client'
 import { Product, Entities } from '@shopify/schema'
+import Image from 'next/image'
 
 type ProductsResultType = {
   products?: Entities<Product>
@@ -36,6 +37,14 @@ const HomePage = ({ productsResult }: HomePageProps) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div>
+        <div className="imageWrapper relative">
+          <Image
+            src="/mock-carousel-image.webp"
+            alt=""
+            width={500}
+            height={500}
+          />
+        </div>
         {productsResult?.edges.map(({ node }) => (
           <Link key={node.id} href={`/product/${node.handle}`}>
             <h2>

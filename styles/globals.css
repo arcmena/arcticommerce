@@ -18,3 +18,13 @@ a {
   color: inherit;
   text-decoration: none;
 }
+
+.imageWrapper::after {
+  position: absolute;
+  content: '';
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #0000004d;
+}
