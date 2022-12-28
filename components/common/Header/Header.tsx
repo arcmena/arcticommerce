@@ -1,14 +1,18 @@
 import { Bars3Icon, ChevronDownIcon } from '@heroicons/react/24/solid'
 import Image from 'next/image'
 
+import { useLayout } from '../Layout/Context'
+
 const LOGO_PATH = '/logo.webp'
 
 const Header = () => {
+  const { openMenuSidebar, openCartSidebar } = useLayout()
+
   return (
     <header className="p-4 md:py-8 md:px-12 border-b-2 border-gray-100">
       <div className="flex justify-between items-center">
         <div style={{ flex: '1 0 0' }} className="flex">
-          <button className="lg:hidden">
+          <button className="lg:hidden" onClick={openMenuSidebar}>
             <Bars3Icon className="h-8 text-black" />
           </button>
 
@@ -38,7 +42,10 @@ const Header = () => {
             SEARCH
           </a>
 
-          <a className="md:p-4 text-black text-sm font-light tracking-widest">
+          <a
+            className="md:p-4 text-black text-sm font-light tracking-widest"
+            onClick={openCartSidebar}
+          >
             CART
           </a>
         </div>
