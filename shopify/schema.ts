@@ -17,6 +17,11 @@ export interface ProductOption {
   values: [string]
 }
 
+export interface ProductPrice {
+  amount: string
+  currencyCode: string
+}
+
 export interface ProductVariant {
   id: string
   title: string
@@ -25,11 +30,31 @@ export interface ProductVariant {
     name: string
     value: string
   }
+  price: ProductPrice
+  compareAtPrice: ProductPrice
+  image: Image
 }
 
 export interface ProductWithVariants extends Product {
   options: [ProductOption]
   variants: Entities<ProductVariant>
+}
+
+export interface CheckoutLineItem {
+  id: string
+  quantity: number
+  title: string
+  variant: ProductVariant
+}
+
+export interface Checkout {
+  id: string
+  webUrl: string
+  completedAt?: string
+  createdAt: string
+  totalPrice: ProductPrice
+  subtotalPrice: ProductPrice
+  lineItems: Entities<{}>
 }
 
 export interface EntityNode<T> {

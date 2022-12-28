@@ -1,9 +1,9 @@
 import cn from 'classnames'
 import { ReactNode } from 'react'
 
-import CartSidebar from '../CartSidebar'
 import Header from '../Header'
 import MenuSidebar from '../MenuSidebar'
+import CartSidebar from '../Cart/Sidebar/Sidebar'
 import { useLayout } from './Context'
 
 const Backdrop = () => {

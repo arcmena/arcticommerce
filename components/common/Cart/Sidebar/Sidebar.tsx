@@ -1,6 +1,6 @@
 import Sidebar from '@components/Elements/Sidebar'
 import { SIDEBAR_ORIENTATION } from '@components/Elements/Sidebar/Sidebar'
-import { useLayout } from '../Layout/Context'
+import { useLayout } from '../../Layout/Context'
 
 const NoItemsMessage = () => (
   <div className="text-center">

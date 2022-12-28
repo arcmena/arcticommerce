@@ -21,6 +21,14 @@ const productDetailQuery = gql`
             id
             sku
             title
+            price {
+              amount
+              currencyCode
+            }
+            compareAtPrice {
+              amount
+              currencyCode
+            }
             selectedOptions {
               name
               value

@@ -1,10 +1,12 @@
+import { useState } from 'react'
 import { GetServerSideProps } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 
 import { shopifyClient } from '@shopify/client'
-import { productDetailQuery } from '@shopify/queries/productDetailQuery'
 import { ProductWithVariants } from '@shopify/schema'
+import { productDetailQuery } from '@shopify/queries/productDetailQuery'
+import { useCart } from '@components/common/Cart/Context'
 
 type ProductDetailResultType = {
   productByHandle?: ProductWithVariants
@@ -36,6 +38,22 @@ type ProductDetailPageProps = {
 }
 
 const PDP = ({ productResult }: ProductDetailPageProps) => {
+  const { addProductToCart } = useCart()
+
+  const [activeVariant, setActiveVariant] = useState(
+    productResult.variants.edges[0].node
+  )
+
+  const handleAddToCart = async () => {
+    const { id } = activeVariant
+
+    // TODO: add loading state to button
+
+    await addProductToCart(id)
+  }
+
+  console.log({ productResult, activeVariant })
+
   return (
     <>
       <Head>
@@ -44,17 +62,18 @@ const PDP = ({ productResult }: ProductDetailPageProps) => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="grid grid-cols-5">
-        <div className="col-span-3">
+      <div className="">
+        <div className="relative p-6 h-96">
           <Image
             src={productResult.images.edges[0].node.url}
             alt={productResult.images.edges[0].node.altText || ''}
-            width={1000}
-            height={1000}
+            fill
+            style={{ objectFit: 'cover' }}
           />
         </div>
-        <div className="col-span-2">
+        <div className="">
           <h1 className="text-blue-800 text-xl">{productResult.title}</h1>
+          <button onClick={handleAddToCart}>Add to Cart</button>
           <h2 className="text-gray-300 text-lg">{productResult.description}</h2>
           <div>
             {productResult.options.map(({ name, values }) => (
@@ -72,7 +91,7 @@ const PDP = ({ productResult }: ProductDetailPageProps) => {
             ))}
           </div>
         </div>
-      </main>
+      </div>
     </>
   )
 }
