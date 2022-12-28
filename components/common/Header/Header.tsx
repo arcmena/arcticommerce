@@ -10,7 +10,11 @@ const Header = () => {
   const { openMenuSidebar, openCartSidebar } = useLayout()
   const { cartData } = useCart()
 
-  const cartItemsCount = cartData?.node?.lineItems.edges.length
+  const cartItemsCount = cartData?.node?.lineItems.edges.reduce((acc, cur) => {
+    const currentQuantity = cur.node.quantity
+
+    return acc + currentQuantity
+  }, 0)
 
   return (
     <header className="p-4 md:py-8 md:px-12 border-b-2 border-gray-100">
