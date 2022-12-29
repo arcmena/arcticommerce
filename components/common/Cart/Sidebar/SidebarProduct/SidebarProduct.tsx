@@ -17,14 +17,11 @@ const SidebarProduct = ({ productData }: SidebarProductProps) => {
   const originalProductUrl = getProductUrl(variant.product.handle)
 
   return (
-    <div
-      key={productData.id}
-      className="flex items-start flex-wrap gap-3 py-4 border-b-[1px] border-gray-200"
-    >
+    <div className="flex items-start flex-wrap gap-3 py-4 border-b-[1px] border-gray-200">
       <div className="w-full text-center">
         <Link
           href={originalProductUrl}
-          className="text-[18px] font-light text-gray-900 -tracking-tight"
+          className="text-[18px] text-gray-900 -tracking-tight"
         >
           {productData.title}
         </Link>
@@ -48,14 +45,14 @@ const SidebarProduct = ({ productData }: SidebarProductProps) => {
         <div className="pb-3">
           <Link
             href={originalProductUrl}
-            className="text-[13px] font-light tracking-[1px]"
+            className="text-[13px] tracking-[1px]"
           >
             {variant.title}
           </Link>
 
           <br />
 
-          <span className="text-[13px] font-light tracking-[1px]">{price}</span>
+          <span className="text-[13px] tracking-[1px]">{price}</span>
         </div>
 
         <div className="text-left">
@@ -71,7 +68,7 @@ const SidebarProduct = ({ productData }: SidebarProductProps) => {
             </button>
           </div>
 
-          <button className="uppercase underline underline-offset-[3px] block text-xs tracking-[1px] font-light mt-3 w-fit">
+          <button className="uppercase underline underline-offset-[3px] block text-xs tracking-[1px] mt-3 w-fit">
             Remove
           </button>
         </div>

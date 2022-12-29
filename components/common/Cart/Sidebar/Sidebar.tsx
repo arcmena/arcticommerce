@@ -3,6 +3,7 @@ import cn from 'classnames'
 import Sidebar from '@components/Elements/Sidebar'
 import { SIDEBAR_ORIENTATION } from '@components/Elements/Sidebar/Sidebar'
 import SidebarProduct from './SidebarProduct'
+import SidebarFooter from './SidebarFooter'
 
 import { useLayout } from '../../Layout/Context'
 import { useCart } from '../Context'
@@ -32,18 +33,24 @@ const CartSidebar = () => {
       <div className="px-4 py-8">
         <div
           className={cn(
-            'pb-8 text-center font-light',
+            'pb-8 text-center',
             cartData && 'border-b-[1px] border-gray-200'
           )}
         >
-          <h2 className="text-[22px]">Your Cart</h2>
+          <h2 className="text-[22px] text-[#111111]">Your Cart</h2>
         </div>
 
-        {!cartData && <NoItemsMessage />}
+        {!cartData?.node ? (
+          <NoItemsMessage />
+        ) : (
+          <>
+            {cartData?.node?.lineItems.edges.map(({ node: item }) => (
+              <SidebarProduct key={item.id} productData={item} />
+            ))}
 
-        {cartData?.node?.lineItems.edges.map(({ node: item }) => (
-          <SidebarProduct key={item.id} productData={item} />
-        ))}
+            <SidebarFooter checkout={cartData.node} />
+          </>
+        )}
       </div>
     </Sidebar>
   )
