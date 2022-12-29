@@ -1,5 +1,9 @@
+import cn from 'classnames'
+
 import Sidebar from '@components/Elements/Sidebar'
 import { SIDEBAR_ORIENTATION } from '@components/Elements/Sidebar/Sidebar'
+import SidebarProduct from './SidebarProduct'
+
 import { useLayout } from '../../Layout/Context'
 import { useCart } from '../Context'
 
@@ -26,15 +30,19 @@ const CartSidebar = () => {
       closeSidebar={closeCartSidebar}
     >
       <div className="px-4 py-8">
-        <div className="pb-8 text-center font-light">
+        <div
+          className={cn(
+            'pb-8 text-center font-light',
+            cartData && 'border-b-[1px] border-gray-200'
+          )}
+        >
           <h2 className="text-[22px]">Your Cart</h2>
         </div>
 
         {!cartData && <NoItemsMessage />}
-        {cartData?.node?.lineItems.edges.map(item => (
-          <div key={item.node.id}>
-            <span>{item.node.title}</span>
-          </div>
+
+        {cartData?.node?.lineItems.edges.map(({ node: item }) => (
+          <SidebarProduct key={item.id} productData={item} />
         ))}
       </div>
     </Sidebar>

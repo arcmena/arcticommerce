@@ -33,6 +33,9 @@ export interface ProductVariant {
   price: ProductPrice
   compareAtPrice: ProductPrice
   image: Image
+  product: {
+    handle: string
+  }
 }
 
 export interface ProductWithVariants extends Product {

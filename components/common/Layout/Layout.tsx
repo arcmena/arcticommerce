@@ -1,10 +1,11 @@
 import cn from 'classnames'
-import { ReactNode } from 'react'
+import { ReactNode, useEffect } from 'react'
 
 import Header from '../Header'
 import MenuSidebar from '../MenuSidebar'
 import CartSidebar from '../Cart/Sidebar/Sidebar'
 import { useLayout } from './Context'
+import { useRouter } from 'next/router'
 
 const Backdrop = () => {
   const { isMenuSidebarOpen, isCartSidebarOpen } = useLayout()
@@ -26,9 +27,28 @@ type LayoutProps = {
 }
 
 const Layout = ({ children }: LayoutProps) => {
-  const { isMenuSidebarOpen, isCartSidebarOpen } = useLayout()
+  const {
+    isMenuSidebarOpen,
+    isCartSidebarOpen,
+    closeMenuSidebar,
+    closeCartSidebar
+  } = useLayout()
+  const router = useRouter()
 
   const isSidebarOpen = isMenuSidebarOpen || isCartSidebarOpen
+
+  useEffect(() => {
+    const handleRouteChange = (_url: string) => {
+      closeMenuSidebar()
+      closeCartSidebar()
+    }
+
+    router.events.on('routeChangeStart', handleRouteChange)
+
+    return () => {
+      router.events.off('routeChangeStart', handleRouteChange)
+    }
+  }, [])
 
   return (
     <>
