@@ -7,6 +7,7 @@ import SidebarFooter from './SidebarFooter'
 
 import { useLayout } from '../../Layout/Context'
 import { useCart } from '../Context'
+import { useMemo } from 'react'
 
 const NoItemsMessage = () => (
   <div className="text-center">
@@ -20,7 +21,7 @@ const NoItemsMessage = () => (
 
 const CartSidebar = () => {
   const { isCartSidebarOpen, closeCartSidebar } = useLayout()
-  const { cartData } = useCart()
+  const { cartData, isCartEmpty } = useCart()
 
   // TODO: check if it's needed to have a revalidation on the cart on every open
 
@@ -34,13 +35,13 @@ const CartSidebar = () => {
         <div
           className={cn(
             'pb-8 text-center',
-            cartData && 'border-b-[1px] border-gray-200'
+            !isCartEmpty && 'border-b-[1px] border-gray-200'
           )}
         >
           <h2 className="text-[22px] text-[#111111]">Your Cart</h2>
         </div>
 
-        {!cartData?.node ? (
+        {isCartEmpty ? (
           <NoItemsMessage />
         ) : (
           <>
@@ -48,7 +49,7 @@ const CartSidebar = () => {
               <SidebarProduct key={item.id} productData={item} />
             ))}
 
-            <SidebarFooter checkout={cartData.node} />
+            <SidebarFooter checkout={cartData!.node!} />
           </>
         )}
       </div>

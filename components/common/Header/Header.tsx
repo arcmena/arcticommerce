@@ -9,7 +9,7 @@ const LOGO_PATH = '/logo.webp'
 
 const Header = () => {
   const { openMenuSidebar, openCartSidebar } = useLayout()
-  const { cartData } = useCart()
+  const { cartData, isCartEmpty } = useCart()
 
   const cartItemsCount = cartData?.node?.lineItems.edges.reduce((acc, cur) => {
     const currentQuantity = cur.node.quantity
@@ -57,7 +57,7 @@ const Header = () => {
             className="md:p-4 text-black text-[13px] font-light tracking-widest"
             onClick={openCartSidebar}
           >
-            CART {cartItemsCount && `(${cartItemsCount})`}
+            CART {!isCartEmpty && `(${cartItemsCount})`}
           </a>
         </div>
       </div>

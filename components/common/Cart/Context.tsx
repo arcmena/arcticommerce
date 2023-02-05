@@ -30,6 +30,7 @@ type CartContextType = {
   addProductToCart: (productId: string) => Promise<void>
   updateCartProduct: (product: UpdateCheckoutInput) => Promise<void>
   removeCartProduct: (productId: string) => Promise<void>
+  isCartEmpty: boolean
 }
 
 const CartContext = createContext({} as CartContextType)
@@ -44,6 +45,17 @@ const CartProvider: FC<{ children: ReactNode }> = ({ children }) => {
   } = useSWR('cart', getCheckout, {
     revalidateOnFocus: false
   })
+
+
+  const isCartEmpty = useMemo(() => {
+    if (cartData?.node) {
+      if (cartData.node.lineItems.edges.length !== 0){
+        return false
+      }
+    }
+
+    return true
+  }, [cartData])
 
   const { openCartSidebar } = useLayout()
 
@@ -93,7 +105,8 @@ const CartProvider: FC<{ children: ReactNode }> = ({ children }) => {
       mutateCart,
       addProductToCart,
       updateCartProduct,
-      removeCartProduct
+      removeCartProduct,
+      isCartEmpty
     }),
     [
       addProductToCart,
@@ -103,7 +116,8 @@ const CartProvider: FC<{ children: ReactNode }> = ({ children }) => {
       cartError,
       isCartLoading,
       isCartValidating,
-      mutateCart
+      mutateCart,
+      isCartEmpty
     ]
   )
 
