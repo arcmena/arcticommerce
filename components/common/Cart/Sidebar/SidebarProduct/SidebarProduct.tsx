@@ -6,6 +6,8 @@ import { getProductUrl } from '@shopify/utils/getProductUrl'
 import { getProductPrice } from '@shopify/utils/getProductPrice'
 import { CheckoutLineItem } from '@shopify/schema'
 
+import { useCart } from '../../Context'
+
 interface SidebarProductProps {
   productData: CheckoutLineItem
 }
@@ -13,8 +15,20 @@ interface SidebarProductProps {
 const SidebarProduct = ({ productData }: SidebarProductProps) => {
   const { variant } = productData
 
+  const { updateCartProduct } = useCart()
+
   const { price } = getProductPrice({ price: variant.price })
   const originalProductUrl = getProductUrl(variant.product.handle)
+
+  const handleQuantityDecrease = () => {
+    // TODO: prevent updating when quantity is 1
+    updateCartProduct({ id: productData.id, variantId: variant.id, quantity: productData.quantity - 1 })
+  }
+
+
+  const handleQuantityIncrease = () => 
+    updateCartProduct({ id: productData.id, variantId: variant.id, quantity: productData.quantity + 1 })
+  
 
   return (
     <div className="flex items-start flex-wrap gap-3 py-4 border-b-[1px] border-gray-200">
@@ -57,13 +71,13 @@ const SidebarProduct = ({ productData }: SidebarProductProps) => {
 
         <div className="text-left">
           <div className="rounded-sm relative inline-flex border-[1px] border-gray-200 bg-white">
-            <button className="px-4">
+            <button className="px-4" onClick={handleQuantityDecrease}>
               <MinusIcon className="w-4 text-black" />
             </button>
             <div className="h-[38px] px-[18px] border-x-[1px] border-gray-200 text-base flex items-center">
               {productData.quantity}
             </div>
-            <button className="px-4">
+            <button className="px-4" onClick={handleQuantityIncrease}>
               <PlusIcon className="w-4 text-black" />
             </button>
           </div>
