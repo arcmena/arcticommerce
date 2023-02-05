@@ -18,6 +18,7 @@ import {
 } from '@shopify/operations/checkout/getCheckout'
 import { checkoutLineItemAdd } from '@shopify/operations/checkout/checkoutLineItemsAdd'
 import { checkoutLineItemsUpdate, UpdateCheckoutInput } from '@shopify/operations/checkout/checkoutLineItemsUpdate'
+import { checkoutLineItemsRemove } from '@shopify/operations/checkout/checkoutLineItemsRemove'
 import { Checkout } from '@shopify/schema'
 
 type CartContextType = {
@@ -28,6 +29,7 @@ type CartContextType = {
   mutateCart: KeyedMutator<GetCheckoutResult | undefined>
   addProductToCart: (productId: string) => Promise<void>
   updateCartProduct: (product: UpdateCheckoutInput) => Promise<void>
+  removeCartProduct: (productId: string) => Promise<void>
 }
 
 const CartContext = createContext({} as CartContextType)
@@ -70,8 +72,16 @@ const CartProvider: FC<{ children: ReactNode }> = ({ children }) => {
     const checkoutUpdated = await checkoutLineItemsUpdate(product)
 
     if (checkoutUpdated.checkout) {
-    mutateCart({ node: checkoutUpdated.checkout }, { revalidate: false })
-  }
+      mutateCart({ node: checkoutUpdated.checkout }, { revalidate: false })
+    }
+  }, [mutateCart])
+
+  const removeCartProduct = useCallback(async (productId: string) => {
+    const checkoutUpdated = await checkoutLineItemsRemove({ productId })
+
+    if (checkoutUpdated.checkout) {
+      mutateCart({ node: checkoutUpdated.checkout }, { revalidate: false })
+    }
   }, [mutateCart])
 
   const providerValue = useMemo(
@@ -82,11 +92,13 @@ const CartProvider: FC<{ children: ReactNode }> = ({ children }) => {
       cartError,
       mutateCart,
       addProductToCart,
-      updateCartProduct
+      updateCartProduct,
+      removeCartProduct
     }),
     [
       addProductToCart,
       updateCartProduct,
+      removeCartProduct,
       cartData,
       cartError,
       isCartLoading,

@@ -15,19 +15,23 @@ interface SidebarProductProps {
 const SidebarProduct = ({ productData }: SidebarProductProps) => {
   const { variant } = productData
 
-  const { updateCartProduct } = useCart()
+  const { updateCartProduct, removeCartProduct } = useCart()
 
   const { price } = getProductPrice({ price: variant.price })
   const originalProductUrl = getProductUrl(variant.product.handle)
 
   const handleQuantityDecrease = () => {
-    // TODO: prevent updating when quantity is 1
+    if (productData.quantity - 1 === 0) {
+      return;
+    }
     updateCartProduct({ id: productData.id, variantId: variant.id, quantity: productData.quantity - 1 })
   }
 
 
   const handleQuantityIncrease = () => 
     updateCartProduct({ id: productData.id, variantId: variant.id, quantity: productData.quantity + 1 })
+
+  const handleRemove = () => removeCartProduct(productData.id)
   
 
   return (
@@ -82,7 +86,10 @@ const SidebarProduct = ({ productData }: SidebarProductProps) => {
             </button>
           </div>
 
-          <button className="uppercase underline underline-offset-[3px] block text-xs tracking-[1px] mt-3 w-fit">
+          <button 
+            className="uppercase underline underline-offset-[3px] block text-xs tracking-[1px] mt-3 w-fit" 
+            onClick={handleRemove}
+          >
             Remove
           </button>
         </div>
