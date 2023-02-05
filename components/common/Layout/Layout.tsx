@@ -7,13 +7,14 @@ import CartSidebar from '../Cart/Sidebar/Sidebar'
 import { useLayout } from './Context'
 import { useRouter } from 'next/router'
 
-const Backdrop = () => {
+const Backdrop = ({ onBackdropClick }: { onBackdropClick: () => void }) => {
   const { isMenuSidebarOpen, isCartSidebarOpen } = useLayout()
 
   const isSidebarOpen = isMenuSidebarOpen || isCartSidebarOpen
 
   return (
     <div
+      onClick={onBackdropClick}
       className={cn(
         'bg-black h-full w-full top-0 left-0 fixed transition-opacity ease-in-out duration-300',
         isSidebarOpen ? 'opacity-30 z-40' : 'opacity-0 -z-50'
@@ -37,16 +38,16 @@ const Layout = ({ children }: LayoutProps) => {
 
   const isSidebarOpen = isMenuSidebarOpen || isCartSidebarOpen
 
-  useEffect(() => {
-    const handleRouteChange = (_url: string) => {
-      closeMenuSidebar()
-      closeCartSidebar()
-    }
+  const resetSidebars = () => {
+    closeMenuSidebar()
+    closeCartSidebar()
+  }
 
-    router.events.on('routeChangeStart', handleRouteChange)
+  useEffect(() => {
+    router.events.on('routeChangeStart', resetSidebars)
 
     return () => {
-      router.events.off('routeChangeStart', handleRouteChange)
+      router.events.off('routeChangeStart', resetSidebars)
     }
   }, [])
 
@@ -54,7 +55,7 @@ const Layout = ({ children }: LayoutProps) => {
     <>
       <MenuSidebar />
       <CartSidebar />
-      <Backdrop />
+      <Backdrop onBackdropClick={resetSidebars} />
       <div
         className={cn(
           'bg-white w-full h-full overflow-hidden',

@@ -1,5 +1,6 @@
 import { Bars3Icon, ChevronDownIcon } from '@heroicons/react/24/solid'
 import Image from 'next/image'
+import Link from 'next/link'
 
 import { useLayout } from '../Layout/Context'
 import { useCart } from '../Cart/Context'
@@ -42,7 +43,9 @@ const Header = () => {
         </div>
 
         <div className="mx-auto">
-          <Image src={LOGO_PATH} alt="Logo" width={112} height={20} />
+          <Link href="/">
+            <Image src={LOGO_PATH} alt="Logo" width={112} height={20} />
+          </Link>
         </div>
 
         <div className="flex justify-end" style={{ flex: '1 0 0' }}>
