@@ -41,6 +41,15 @@ const productDetailQuery = gql`
         name
         values
       }
+      collections(first:10) {
+        edges {
+          node {
+            id
+            title
+            handle
+          }
+        }
+      }
     }
   }
 `

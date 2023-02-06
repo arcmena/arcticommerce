@@ -3,12 +3,19 @@ export interface Image {
   altText?: string
 }
 
+export interface Collection {
+  id: string
+  title: string
+  handle: string
+}
+
 export interface Product {
   id: string
   title: string
   description: string
   handle: string
   images: Entities<Image>
+  collections: Entities<Collection>
 }
 
 export interface ProductOption {

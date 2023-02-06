@@ -32,7 +32,6 @@ const SidebarProduct = ({ productData }: SidebarProductProps) => {
     updateCartProduct({ id: productData.id, variantId: variant.id, quantity: productData.quantity + 1 })
 
   const handleRemove = () => removeCartProduct(productData.id)
-  
 
   return (
     <div className="flex items-start flex-wrap gap-3 py-4 border-b-[1px] border-gray-200">

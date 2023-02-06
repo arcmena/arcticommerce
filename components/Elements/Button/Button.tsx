@@ -14,6 +14,8 @@ const defaultStyles =
 
 const filledVariantStyles = 'text-white bg-[#111111]'
 
+const outlineVariantStyles = 'text-black bg-white border-2 border-[#111111]'
+
 const Button = (props: ButtonProps) => {
   const {
     children,
@@ -26,7 +28,8 @@ const Button = (props: ButtonProps) => {
   const classes = cn(
     defaultStyles,
     {
-      [filledVariantStyles]: variant === 'filled'
+      [filledVariantStyles]: variant === 'filled',
+      [outlineVariantStyles]: variant === 'outline'
     },
     className
   )
