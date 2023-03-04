@@ -13,6 +13,7 @@ export interface Product {
   id: string
   title: string
   description: string
+  descriptionHtml: string
   handle: string
   images: Entities<Image>
   collections: Entities<Collection>

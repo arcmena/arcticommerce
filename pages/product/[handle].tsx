@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { GetServerSideProps } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
+import cn from 'classnames'
 
 import { shopifyClient } from '@shopify/client'
 import { ProductWithVariants } from '@shopify/schema'
@@ -10,6 +11,8 @@ import { getProductPrice } from '@shopify/utils/getProductPrice'
 
 import Button from '@components/Elements/Button'
 import { useCart } from '@components/common/Cart/Context'
+
+import s from 'styles/pages/PDP.module.css'
 
 type ProductDetailResultType = {
   productByHandle?: ProductWithVariants
@@ -85,6 +88,7 @@ const PDP = ({ productResult }: ProductDetailPageProps) => {
               {getProductPrice({ price: activeVariant.compareAtPrice }).price}
             </span>
           </div>
+
           <div className='mt-8'>
             <div>
               {productResult.options.map(({ name, values }) => (
@@ -102,10 +106,12 @@ const PDP = ({ productResult }: ProductDetailPageProps) => {
               ))}
             </div>
           </div>
+
           <div className='mt-8'>
-            <Button onClick={handleAddToCart} variant={'outline'} className="w-full">Add to Cart</Button>
+            <Button onClick={handleAddToCart} variant={'filled'} className="w-full">Add to Cart</Button>
           </div>
-          <h2 className="text-gray-300 text-lg">{productResult.description}</h2>
+
+          <div className={cn('mt-8', s['description-html'])} dangerouslySetInnerHTML={{ __html: productResult.descriptionHtml }} />
         </div>
       </div>
     </>

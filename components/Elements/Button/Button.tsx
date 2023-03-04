@@ -10,9 +10,9 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const defaultStyles =
-  'uppercase h-[45px] px-4 pointer leading-[45px] tracking-[1px] text-[13px] md:text-[14px] rounded-[2px]'
+  'uppercase h-[45px] px-4 pointer leading-[41px] tracking-[1px] text-[13px] md:text-[14px] rounded-[2px] flex justify-center align-center'
 
-const filledVariantStyles = 'text-white bg-[#111111]'
+const filledVariantStyles = 'text-white bg-[#111111] border-2 border-[#111111]'
 
 const outlineVariantStyles = 'text-black bg-white border-2 border-[#111111]'
 

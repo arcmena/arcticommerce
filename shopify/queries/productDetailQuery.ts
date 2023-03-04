@@ -7,6 +7,7 @@ const productDetailQuery = gql`
       handle
       title
       description
+      descriptionHtml
       images(first: 10) {
         edges {
           node {
