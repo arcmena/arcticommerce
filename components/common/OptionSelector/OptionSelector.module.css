@@ -1,0 +1,28 @@
+.container > div:first-child {
+  @apply mb-4;
+}
+
+.disabled-radio {
+  background: linear-gradient(
+    to left top,
+    transparent calc(50% - 2px),
+    #eaeaea,
+    transparent calc(50% + 2px)
+  );
+}
+
+.swatch:after {
+  content: '';
+  @apply absolute -left-[5px] -top-[5px] border-2 border-gray-200 rounded-full w-[46px] h-[46px];
+}
+
+.swatch-active:after {
+  @apply border-[#111111];
+}
+
+.swatch-inactive:before {
+  content: "";
+  height: calc(100% + 5.5px);
+  transform: translate(-50%) rotate(45deg);
+  @apply absolute w-[2px] inline-block left-1/2 -top-[3px] bg-gray-200;
+}

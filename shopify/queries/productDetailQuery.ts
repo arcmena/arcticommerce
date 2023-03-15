@@ -42,7 +42,7 @@ const productDetailQuery = gql`
         name
         values
       }
-      collections(first:10) {
+      collections(first: 10) {
         edges {
           node {
             id
@@ -50,6 +50,9 @@ const productDetailQuery = gql`
             handle
           }
         }
+      }
+      swatchImages: metafield(namespace: "custom", key: "swatch_images") {
+        value
       }
     }
   }

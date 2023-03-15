@@ -10,6 +10,7 @@ import { productDetailQuery } from '@shopify/queries/productDetailQuery'
 import { getProductPrice } from '@shopify/utils/getProductPrice'
 
 import Button from '@components/Elements/Button'
+import { OptionSelector } from '@components/common/OptionSelector'
 import { useCart } from '@components/common/Cart/Context'
 
 import s from 'styles/pages/PDP.module.css'
@@ -77,41 +78,46 @@ const PDP = ({ productResult }: ProductDetailPageProps) => {
         </div>
         <div className="px-4 py-8">
           <div>
-            <h1 className="text-black text-[22px] text-center">{productResult.title}</h1>
-            <span className='mt-3 text-center block text-black text-[13px] uppercase tracking-widest'>{productResult.collections.edges[0].node.title}</span>
+            <h1 className="text-black text-[22px] text-center">
+              {productResult.title}
+            </h1>
+            <span className="mt-3 text-center block text-black text-[13px] uppercase tracking-widest">
+              {productResult.collections.edges[0].node.title}
+            </span>
           </div>
-          <div className='flex mt-4 tracking-widest'>
-            <span className='text-base'>
+          <div className="flex mt-4 tracking-widest">
+            <span className="text-base">
               {getProductPrice({ price: activeVariant.price }).price}
             </span>
-            <span className='text-[13px] line-through text-gray-600 h-fit align-bottom pt-[3px] ml-1'>
+            <span className="text-[13px] line-through text-gray-600 h-fit align-bottom pt-[3px] ml-1">
               {getProductPrice({ price: activeVariant.compareAtPrice }).price}
             </span>
           </div>
 
-          <div className='mt-8'>
-            <div>
-              {productResult.options.map(({ name, values }) => (
-                <div key={name}>
-                  <span>{name}</span>
-
-                  <ul className="ml-4">
-                    {values.map(val => (
-                      <li key={val}>
-                        <button>{val}</button>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
+          <div className="mt-8">
+            {productResult?.options?.length && (
+              <OptionSelector
+                options={productResult.options}
+                variants={productResult?.variants}
+                swatchImages={JSON.parse(productResult.swatchImages?.value!)}
+              />
+            )}
           </div>
 
-          <div className='mt-8'>
-            <Button onClick={handleAddToCart} variant={'filled'} className="w-full">Add to Cart</Button>
+          <div className="mt-8">
+            <Button
+              onClick={handleAddToCart}
+              variant={'filled'}
+              className="w-full"
+            >
+              Add to Cart
+            </Button>
           </div>
 
-          <div className={cn('mt-8', s['description-html'])} dangerouslySetInnerHTML={{ __html: productResult.descriptionHtml }} />
+          <div
+            className={cn('mt-8', s['description-html'])}
+            dangerouslySetInnerHTML={{ __html: productResult.descriptionHtml }}
+          />
         </div>
       </div>
     </>

@@ -17,6 +17,9 @@ export interface Product {
   handle: string
   images: Entities<Image>
   collections: Entities<Collection>
+  swatchImages?: {
+    value: string
+  }
 }
 
 export interface ProductOption {
