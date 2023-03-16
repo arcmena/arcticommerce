@@ -14,7 +14,9 @@ export interface RemoveCheckoutItemsInput {
   productId?: string
 }
 
-const checkoutLineItemsRemove = async ({ productId }: RemoveCheckoutItemsInput) => {
+const checkoutLineItemsRemove = async ({
+  productId
+}: RemoveCheckoutItemsInput) => {
   const checkoutId = getCheckoutId()
 
   const { checkoutLineItemsRemove } =

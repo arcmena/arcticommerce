@@ -8,10 +8,14 @@ import s from './OptionSelector.module.css'
 interface OptionSelectorProps {
   options: [ProductOption]
   variants: Entities<ProductVariant>
-  swatchImages?: Record<string, string>;
+  swatchImages?: Record<string, string>
 }
 
-const OptionSelector = ({ options, variants, swatchImages }: OptionSelectorProps) => {
+const OptionSelector = ({
+  options,
+  variants,
+  swatchImages
+}: OptionSelectorProps) => {
   const [selectedVariant, setSelectedVariant] = useState(variants.edges[0].node)
 
   return (
@@ -26,10 +30,8 @@ const OptionSelector = ({ options, variants, swatchImages }: OptionSelectorProps
               </button>
             )}
 
-          {name === 'Color' && (
-              <span className="uppercase tracking-[1px]">
-                {values[0]}
-              </span>
+            {name === 'Color' && (
+              <span className="uppercase tracking-[1px]">{values[0]}</span>
             )}
           </div>
 
@@ -65,7 +67,9 @@ const OptionSelector = ({ options, variants, swatchImages }: OptionSelectorProps
                     }
                   )}
                   style={{
-                    backgroundImage: `url(${swatchImages?.[val.replace(' ', '').toLowerCase()]})`,
+                    backgroundImage: `url(${
+                      swatchImages?.[val.replace(' ', '').toLowerCase()]
+                    })`,
                     backgroundSize: 'cover'
                   }}
                 />

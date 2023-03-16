@@ -17,7 +17,10 @@ import {
   GetCheckoutResult
 } from '@shopify/operations/checkout/getCheckout'
 import { checkoutLineItemAdd } from '@shopify/operations/checkout/checkoutLineItemsAdd'
-import { checkoutLineItemsUpdate, UpdateCheckoutInput } from '@shopify/operations/checkout/checkoutLineItemsUpdate'
+import {
+  checkoutLineItemsUpdate,
+  UpdateCheckoutInput
+} from '@shopify/operations/checkout/checkoutLineItemsUpdate'
 import { checkoutLineItemsRemove } from '@shopify/operations/checkout/checkoutLineItemsRemove'
 import { Checkout } from '@shopify/schema'
 
@@ -46,10 +49,9 @@ const CartProvider: FC<{ children: ReactNode }> = ({ children }) => {
     revalidateOnFocus: false
   })
 
-
   const isCartEmpty = useMemo(() => {
     if (cartData?.node) {
-      if (cartData.node.lineItems.edges.length !== 0){
+      if (cartData.node.lineItems.edges.length !== 0) {
         return false
       }
     }
@@ -80,21 +82,27 @@ const CartProvider: FC<{ children: ReactNode }> = ({ children }) => {
     [mutateCart]
   )
 
-  const updateCartProduct = useCallback(async (product: UpdateCheckoutInput) => {
-    const checkoutUpdated = await checkoutLineItemsUpdate(product)
+  const updateCartProduct = useCallback(
+    async (product: UpdateCheckoutInput) => {
+      const checkoutUpdated = await checkoutLineItemsUpdate(product)
 
-    if (checkoutUpdated.checkout) {
-      mutateCart({ node: checkoutUpdated.checkout }, { revalidate: false })
-    }
-  }, [mutateCart])
+      if (checkoutUpdated.checkout) {
+        mutateCart({ node: checkoutUpdated.checkout }, { revalidate: false })
+      }
+    },
+    [mutateCart]
+  )
 
-  const removeCartProduct = useCallback(async (productId: string) => {
-    const checkoutUpdated = await checkoutLineItemsRemove({ productId })
+  const removeCartProduct = useCallback(
+    async (productId: string) => {
+      const checkoutUpdated = await checkoutLineItemsRemove({ productId })
 
-    if (checkoutUpdated.checkout) {
-      mutateCart({ node: checkoutUpdated.checkout }, { revalidate: false })
-    }
-  }, [mutateCart])
+      if (checkoutUpdated.checkout) {
+        mutateCart({ node: checkoutUpdated.checkout }, { revalidate: false })
+      }
+    },
+    [mutateCart]
+  )
 
   const providerValue = useMemo(
     () => ({

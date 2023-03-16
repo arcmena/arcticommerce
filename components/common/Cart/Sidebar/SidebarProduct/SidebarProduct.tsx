@@ -22,14 +22,21 @@ const SidebarProduct = ({ productData }: SidebarProductProps) => {
 
   const handleQuantityDecrease = () => {
     if (productData.quantity - 1 === 0) {
-      return;
+      return
     }
-    updateCartProduct({ id: productData.id, variantId: variant.id, quantity: productData.quantity - 1 })
+    updateCartProduct({
+      id: productData.id,
+      variantId: variant.id,
+      quantity: productData.quantity - 1
+    })
   }
 
-
-  const handleQuantityIncrease = () => 
-    updateCartProduct({ id: productData.id, variantId: variant.id, quantity: productData.quantity + 1 })
+  const handleQuantityIncrease = () =>
+    updateCartProduct({
+      id: productData.id,
+      variantId: variant.id,
+      quantity: productData.quantity + 1
+    })
 
   const handleRemove = () => removeCartProduct(productData.id)
 
@@ -85,8 +92,8 @@ const SidebarProduct = ({ productData }: SidebarProductProps) => {
             </button>
           </div>
 
-          <button 
-            className="uppercase underline underline-offset-[3px] block text-xs tracking-[1px] mt-3 w-fit" 
+          <button
+            className="uppercase underline underline-offset-[3px] block text-xs tracking-[1px] mt-3 w-fit"
             onClick={handleRemove}
           >
             Remove
