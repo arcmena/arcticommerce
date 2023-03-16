@@ -1,11 +1,12 @@
 import cn from 'classnames'
 import { ReactNode, useEffect } from 'react'
+import { useRouter } from 'next/router'
 
 import Header from '../Header'
+import Footer from '../Footer'
 import MenuSidebar from '../MenuSidebar'
 import CartSidebar from '../Cart/Sidebar/Sidebar'
 import { useLayout } from './Context'
-import { useRouter } from 'next/router'
 
 const Backdrop = ({ onBackdropClick }: { onBackdropClick: () => void }) => {
   const { isMenuSidebarOpen, isCartSidebarOpen } = useLayout()
@@ -64,7 +65,7 @@ const Layout = ({ children }: LayoutProps) => {
       >
         <Header />
         <main>{children}</main>
-        <footer>footer</footer>
+        <Footer />
       </div>
     </>
   )
