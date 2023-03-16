@@ -1,26 +1,41 @@
-import { useState } from 'react'
 import cn from 'classnames'
 
-import { Entities, ProductOption, ProductVariant } from '@shopify/schema'
+import {
+  Entities,
+  ProductOption,
+  ProductVariant,
+  ProductWithVariants
+} from '@shopify/schema'
 
 import s from './OptionSelector.module.css'
 
 interface OptionSelectorProps {
-  options: [ProductOption]
-  variants: Entities<ProductVariant>
-  swatchImages?: Record<string, string>
+  product: ProductWithVariants
+  activeVariant: ProductVariant
+  updateActiveVariant: (
+    selectedOptions: {
+      name: string
+      value: string
+    }[]
+  ) => void
 }
 
 const OptionSelector = ({
-  options,
-  variants,
-  swatchImages
+  product,
+  activeVariant,
+  updateActiveVariant
 }: OptionSelectorProps) => {
-  const [selectedVariant, setSelectedVariant] = useState(variants.edges[0].node)
+  const { options, swatchImages } = product
+
+  const previewImages = JSON.parse(swatchImages?.value!)
+
+  console.log(activeVariant)
+
+  const activeOptions = activeVariant.selectedOptions
 
   return (
     <div className={s['container']}>
-      {options.map(({ name, values }) => (
+      {options?.map(({ name, values }) => (
         <div key={name}>
           <div className="flex gap-2 pb-2 text-[13px] uppercase tracking-[1px]">
             <label className="inline">{name}</label>
@@ -44,11 +59,21 @@ const OptionSelector = ({
               name === 'Size' ? (
                 <button
                   key={val}
+                  onClick={() => {
+                    const newOptions = activeVariant.selectedOptions.map(
+                      selectedOption =>
+                        selectedOption.name === 'Size'
+                          ? { ...selectedOption, value: val }
+                          : selectedOption
+                    )
+
+                    updateActiveVariant(newOptions)
+                  }}
                   className={cn(
                     'border-2 border-gray-200 leading-[43px] h-auto text-[13px] px-4',
                     {
-                      ['border-black']: index === 0,
-                      [s['disabled-radio']]: index === 2
+                      ['border-black']: activeOptions[0].value === val
+                      // [s['disabled-radio']]: index === 2
                     }
                   )}
                 >
@@ -57,18 +82,28 @@ const OptionSelector = ({
               ) : (
                 <button
                   key={val}
+                  onClick={() => {
+                    const newOptions = activeVariant.selectedOptions.map(
+                      selectedOption =>
+                        selectedOption.name === 'Color'
+                          ? { ...selectedOption, value: val }
+                          : selectedOption
+                    )
+
+                    updateActiveVariant(newOptions)
+                  }}
                   id={val.replace(' ', '').toLowerCase()}
                   className={cn(
                     'border-2 border-gray-200 w-[40px] min-w-[40px] h-[40px] rounded-full relative inline-block',
                     s['swatch'],
                     {
-                      [s['swatch-active']]: index === 0,
-                      [s['swatch-inactive']]: index === 1
+                      [s['swatch-active']]: activeOptions[1].value === val
+                      // [s['swatch-inactive']]: index === 1
                     }
                   )}
                   style={{
                     backgroundImage: `url(${
-                      swatchImages?.[val.replace(' ', '').toLowerCase()]
+                      previewImages?.[val.replace(' ', '').toLowerCase()]
                     })`,
                     backgroundSize: 'cover'
                   }}

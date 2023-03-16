@@ -8,6 +8,7 @@ const productDetailQuery = gql`
       title
       description
       descriptionHtml
+      availableForSale
       images(first: 10) {
         edges {
           node {
@@ -22,6 +23,7 @@ const productDetailQuery = gql`
             id
             sku
             title
+            availableForSale
             price {
               amount
               currencyCode

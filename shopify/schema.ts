@@ -20,6 +20,7 @@ export interface Product {
   swatchImages?: {
     value: string
   }
+  availableForSale: boolean
 }
 
 export interface ProductOption {
@@ -40,18 +41,19 @@ export interface ProductVariant {
   selectedOptions: {
     name: string
     value: string
-  }
+  }[]
   price: ProductPrice
   compareAtPrice: ProductPrice
   image: Image
   product: {
     handle: string
   }
+  availableForSale: boolean
 }
 
 export interface ProductWithVariants extends Product {
-  options: [ProductOption]
-  variants: Entities<ProductVariant>
+  options?: [ProductOption]
+  variants?: Entities<ProductVariant>
 }
 
 export interface CheckoutLineItem {

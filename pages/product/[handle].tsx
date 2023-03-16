@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { GetServerSideProps } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
@@ -48,16 +48,40 @@ const PDP = ({ productResult }: ProductDetailPageProps) => {
   const { addProductToCart } = useCart()
 
   const [activeVariant, setActiveVariant] = useState(
-    productResult.variants.edges[0].node
+    productResult?.variants?.edges[0].node
   )
 
+  const isConfigurableProduct = !!productResult?.options?.length
+  const isProductInOfStock = activeVariant!.availableForSale
+
   const handleAddToCart = async () => {
-    const { id } = activeVariant
+    const { id } = activeVariant!
 
     // TODO: add loading state to button
 
-    await addProductToCart(id)
+    if (isProductInOfStock) await addProductToCart(id)
   }
+
+  const updateActiveVariant = useCallback(
+    (selectedOptions: { name: string; value: string }[]) => {
+      const { variants } = productResult
+
+      const newActiveVariant = variants?.edges.find(({ node }) =>
+        node.selectedOptions.every(
+          ({ name, value }, index) =>
+            name === selectedOptions[index].name &&
+            value === selectedOptions[index].value
+        )
+      )?.node
+
+      if (newActiveVariant) {
+        setActiveVariant(newActiveVariant)
+      }
+    },
+    [productResult]
+  )
+
+  console.log(productResult)
 
   return (
     <>
@@ -85,21 +109,21 @@ const PDP = ({ productResult }: ProductDetailPageProps) => {
               {productResult.collections.edges[0].node.title}
             </span>
           </div>
-          <div className="flex mt-4 tracking-widest">
+          <div className="flex mt-4 tracking-widest justify-center">
             <span className="text-base">
-              {getProductPrice({ price: activeVariant.price }).price}
+              {getProductPrice({ price: activeVariant!.price }).price}
             </span>
             <span className="text-[13px] line-through text-gray-600 h-fit align-bottom pt-[3px] ml-1">
-              {getProductPrice({ price: activeVariant.compareAtPrice }).price}
+              {getProductPrice({ price: activeVariant!.compareAtPrice }).price}
             </span>
           </div>
 
           <div className="mt-8">
-            {productResult?.options?.length && (
+            {isConfigurableProduct && (
               <OptionSelector
-                options={productResult.options}
-                variants={productResult?.variants}
-                swatchImages={JSON.parse(productResult.swatchImages?.value!)}
+                product={productResult}
+                activeVariant={activeVariant!}
+                updateActiveVariant={updateActiveVariant}
               />
             )}
           </div>
@@ -109,8 +133,9 @@ const PDP = ({ productResult }: ProductDetailPageProps) => {
               onClick={handleAddToCart}
               variant={'filled'}
               className="w-full"
+              disabled={!isProductInOfStock}
             >
-              Add to Cart
+              {isProductInOfStock ? 'Add to Cart' : 'Out of stock'}
             </Button>
           </div>
 
