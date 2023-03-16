@@ -4,7 +4,7 @@ export const socialIcons = [
       xmlns="http://www.w3.org/2000/svg"
       width="20"
       height="20"
-      className="fill-current w-5 h-5"
+      className="fill-current w-5 h-5 md:w-4 md:h-4"
       viewBox="0 0 20 20"
     >
       <path
@@ -18,7 +18,7 @@ export const socialIcons = [
       xmlns="http://www.w3.org/2000/svg"
       width="22"
       height="20"
-      className="fill-current w-5 h-5"
+      className="fill-current w-5 h-5 md:w-4 md:h-4"
       viewBox="0 0 22 20"
     >
       <path
@@ -32,7 +32,7 @@ export const socialIcons = [
       xmlns="http://www.w3.org/2000/svg"
       width="20"
       height="20"
-      className="fill-current w-5 h-5"
+      className="fill-current w-5 h-5 md:w-4 md:h-4"
       viewBox="0 0 20 20"
     >
       <path
@@ -46,7 +46,7 @@ export const socialIcons = [
       xmlns="http://www.w3.org/2000/svg"
       width="20"
       height="20"
-      className="fill-current w-5 h-5"
+      className="fill-current w-5 h-5 md:w-4 md:h-4"
       viewBox="0 0 20 20"
     >
       <path
@@ -60,7 +60,7 @@ export const socialIcons = [
       xmlns="http://www.w3.org/2000/svg"
       width="20"
       height="20"
-      className="fill-current w-5 h-5"
+      className="fill-current w-5 h-5 md:w-4 md:h-4"
       viewBox="0 0 25 21"
     >
       <path
@@ -74,7 +74,7 @@ export const socialIcons = [
       xmlns="http://www.w3.org/2000/svg"
       width="29"
       height="20"
-      className="fill-current w-5 h-5"
+      className="fill-current w-5 h-5 md:w-4 md:h-4"
       viewBox="0 0 29 20"
     >
       <path
@@ -87,7 +87,7 @@ export const socialIcons = [
     <svg
       xmlns="http://www.w3.org/2000/svg"
       fillRule="evenodd"
-      className="fill-current w-5 h-5"
+      className="fill-current w-5 h-5 md:w-4 md:h-4"
       clipRule="evenodd"
       imageRendering="optimizeQuality"
       shapeRendering="geometricPrecision"
