@@ -18,28 +18,45 @@ const ProductGallery = (props: ProductGalleryProps) => {
   const { galleryEntries } = props
 
   return (
-    <Swiper
-      spaceBetween={16}
-      slidesPerView={1.23}
-      centeredSlides
-      modules={[Pagination]}
-      pagination={{
-        dynamicBullets: true,
-        clickable: true
-      }}
-      className={s['container']}
-    >
-      {galleryEntries.map(({ node: image }, index) => (
-        <SwiperSlide key={`${image.altText}-${index}`}>
-          <Image
-            src={image.url}
-            alt={image.altText || ''}
-            width={500}
-            height={500}
-          />
-        </SwiperSlide>
-      ))}
-    </Swiper>
+    <>
+      <div className="hidden md:inline">
+        <div className="grid grid-cols-2 gap-2">
+          {galleryEntries.map(({ node: image }, index) => (
+            <Image
+              key={`${image.altText}-${index}`}
+              src={image.url}
+              alt={image.altText || ''}
+              width={687}
+              height={687}
+            />
+          ))}
+        </div>
+      </div>
+      <div className="inline md:hidden">
+        <Swiper
+          spaceBetween={16}
+          slidesPerView={1.23}
+          centeredSlides
+          modules={[Pagination]}
+          pagination={{
+            dynamicBullets: true,
+            clickable: true
+          }}
+          className={s['container']}
+        >
+          {galleryEntries.map(({ node: image }, index) => (
+            <SwiperSlide key={`${image.altText}-${index}`}>
+              <Image
+                src={image.url}
+                alt={image.altText || ''}
+                width={687}
+                height={687}
+              />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
+    </>
   )
 }
 

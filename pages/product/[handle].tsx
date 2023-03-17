@@ -89,53 +89,60 @@ const PDP = ({ productResult }: ProductDetailPageProps) => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="">
-        <div className={cn(s['gallery-container'])}>
-          <ProductGallery galleryEntries={productResult.images.edges} />
-        </div>
-        <div className="px-4 py-8">
-          <div>
-            <h1 className="text-black text-[22px] text-center">
-              {productResult.title}
-            </h1>
-            <span className="mt-3 text-center block text-black text-[13px] uppercase tracking-widest">
-              {productResult.collections.edges[0].node.title}
-            </span>
+      <div className="md:pr-8">
+        <div className="md:mx-auto md:flex md:justify-center md:relative md:gap-8 ">
+          <div className={cn(s['gallery-container'])}>
+            <ProductGallery galleryEntries={productResult.images.edges} />
           </div>
-          <div className="flex mt-4 tracking-widest justify-center">
-            <span className="text-base">
-              {getProductPrice({ price: activeVariant!.price }).price}
-            </span>
-            <span className="text-[13px] line-through text-gray-600 h-fit align-bottom pt-[3px] ml-1">
-              {getProductPrice({ price: activeVariant!.compareAtPrice }).price}
-            </span>
-          </div>
+          <div className={cn('px-4 py-8', s['info-container'])}>
+            <div>
+              <h1 className="text-black text-[22px] text-center">
+                {productResult.title}
+              </h1>
+              <span className="mt-3 text-center block text-black text-[13px] uppercase tracking-widest">
+                {productResult.collections.edges[0].node.title}
+              </span>
+            </div>
+            <div className="flex mt-4 tracking-widest justify-center">
+              <span className="text-base">
+                {getProductPrice({ price: activeVariant!.price }).price}
+              </span>
+              <span className="text-[13px] line-through text-gray-600 h-fit align-bottom pt-[3px] ml-1">
+                {
+                  getProductPrice({ price: activeVariant!.compareAtPrice })
+                    .price
+                }
+              </span>
+            </div>
 
-          <div className="mt-8">
-            {isConfigurableProduct && (
-              <OptionSelector
-                product={productResult}
-                activeVariant={activeVariant!}
-                updateActiveVariant={updateActiveVariant}
-              />
-            )}
-          </div>
+            <div className="mt-8">
+              {isConfigurableProduct && (
+                <OptionSelector
+                  product={productResult}
+                  activeVariant={activeVariant!}
+                  updateActiveVariant={updateActiveVariant}
+                />
+              )}
+            </div>
 
-          <div className="mt-8">
-            <Button
-              onClick={handleAddToCart}
-              variant={'filled'}
-              className="w-full"
-              disabled={!isProductInOfStock}
-            >
-              {isProductInOfStock ? 'Add to Cart' : 'Out of stock'}
-            </Button>
-          </div>
+            <div className="mt-8">
+              <Button
+                onClick={handleAddToCart}
+                variant={'filled'}
+                className="w-full"
+                disabled={!isProductInOfStock}
+              >
+                {isProductInOfStock ? 'Add to Cart' : 'Out of stock'}
+              </Button>
+            </div>
 
-          <div
-            className={cn('mt-8', s['description-html'])}
-            dangerouslySetInnerHTML={{ __html: productResult.descriptionHtml }}
-          />
+            <div
+              className={cn('mt-8', s['description-html'])}
+              dangerouslySetInnerHTML={{
+                __html: productResult.descriptionHtml
+              }}
+            />
+          </div>
         </div>
       </div>
     </>

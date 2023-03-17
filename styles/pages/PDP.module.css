@@ -9,3 +9,14 @@
 .description-html ul {
   @apply list-disc pl-8 leading-[25.5px];
 }
+
+.gallery-container {
+  width: calc(100% - 30% - 32px);
+  position: sticky;
+}
+
+.info-container {
+  position: sticky;
+  width: 30%;
+  padding-top: 32px;
+}
