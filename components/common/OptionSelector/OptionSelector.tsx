@@ -29,8 +29,6 @@ const OptionSelector = ({
 
   const previewImages = JSON.parse(swatchImages?.value!)
 
-  console.log(activeVariant)
-
   const activeOptions = activeVariant.selectedOptions
 
   return (

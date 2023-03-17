@@ -81,8 +81,6 @@ const PDP = ({ productResult }: ProductDetailPageProps) => {
     [productResult]
   )
 
-  console.log(productResult)
-
   return (
     <>
       <Head>
