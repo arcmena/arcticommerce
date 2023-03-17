@@ -1,7 +1,6 @@
 import { useCallback, useState } from 'react'
 import { GetServerSideProps } from 'next'
 import Head from 'next/head'
-import Image from 'next/image'
 import cn from 'classnames'
 
 import { shopifyClient } from '@shopify/client'
@@ -11,6 +10,7 @@ import { getProductPrice } from '@shopify/utils/getProductPrice'
 
 import Button from '@components/Elements/Button'
 import { OptionSelector } from '@components/common/OptionSelector'
+import ProductGallery from '@components/product/ProductGallery'
 import { useCart } from '@components/common/Cart/Context'
 
 import s from 'styles/pages/PDP.module.css'
@@ -92,13 +92,8 @@ const PDP = ({ productResult }: ProductDetailPageProps) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="">
-        <div className="relative p-6 h-96">
-          <Image
-            src={productResult.images.edges[0].node.url}
-            alt={productResult.images.edges[0].node.altText || ''}
-            fill
-            style={{ objectFit: 'cover' }}
-          />
+        <div className={cn(s['gallery-container'])}>
+          <ProductGallery galleryEntries={productResult.images.edges} />
         </div>
         <div className="px-4 py-8">
           <div>

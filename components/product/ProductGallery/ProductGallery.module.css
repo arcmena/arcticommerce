@@ -1,0 +1,11 @@
+.container {
+  @apply pb-7;
+}
+
+.container :global(.swiper-pagination-bullet-active) {
+  @apply bg-[#111111];
+}
+
+.pagination-bullet {
+  @apply bg-slate-600;
+}
