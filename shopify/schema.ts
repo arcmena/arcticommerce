@@ -73,6 +73,17 @@ export interface Checkout {
   lineItems: Entities<CheckoutLineItem>
 }
 
+export interface Page {
+  body: string
+  id: string
+  handle: string
+  seo: {
+    title: string
+    description: string
+  }
+  title: string
+}
+
 export interface EntityNode<T> {
   node: T
 }

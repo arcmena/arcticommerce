@@ -4,7 +4,7 @@ import Head from 'next/head'
 import cn from 'classnames'
 
 import { shopifyClient } from '@shopify/client'
-import { ProductWithVariants } from '@shopify/schema'
+import { Page, ProductWithVariants } from '@shopify/schema'
 import { productDetailQuery } from '@shopify/queries/productDetailQuery'
 import { getProductPrice } from '@shopify/utils/getProductPrice'
 
@@ -14,6 +14,7 @@ import ProductGallery from '@components/product/ProductGallery'
 import { useCart } from '@components/common/Cart/Context'
 
 import s from 'styles/pages/PDP.module.css'
+import { getPage } from '@shopify/operations/page/getPage'
 
 type ProductDetailResultType = {
   productByHandle?: ProductWithVariants
@@ -21,11 +22,14 @@ type ProductDetailResultType = {
 
 export const getServerSideProps: GetServerSideProps = async props => {
   const { params } = props
+  const { handle } = params as { handle: string }
 
   const { productByHandle } =
     await shopifyClient.request<ProductDetailResultType>(productDetailQuery, {
-      handle: params!.handle
+      handle: handle
     })
+
+  const pageData = await getPage(handle)
 
   if (!productByHandle) {
     return {
@@ -35,16 +39,18 @@ export const getServerSideProps: GetServerSideProps = async props => {
 
   return {
     props: {
-      productResult: productByHandle
+      productResult: productByHandle,
+      pageData: pageData.page
     }
   }
 }
 
 type ProductDetailPageProps = {
   productResult: ProductWithVariants
+  pageData: Page
 }
 
-const PDP = ({ productResult }: ProductDetailPageProps) => {
+const PDP = ({ productResult, pageData }: ProductDetailPageProps) => {
   const [isAddingToCart, setIsAddingToCart] = useState(false)
 
   const { addProductToCart } = useCart()
@@ -99,63 +105,73 @@ const PDP = ({ productResult }: ProductDetailPageProps) => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="md:pr-8">
-        <div className="md:mx-auto md:flex md:justify-center md:relative md:gap-8 ">
-          <div className={cn(s['gallery-container'])}>
-            <ProductGallery galleryEntries={productResult.images.edges} />
-          </div>
-          <div className={cn('px-4 py-8', s['info-container'])}>
-            <div>
-              <h1 className="text-black text-[22px] text-center">
-                {productResult.title}
-              </h1>
-              <span className="mt-3 text-center block text-black text-[13px] uppercase tracking-widest">
-                {productResult.collections.edges[0].node.title}
-              </span>
+      <>
+        <div className="md:pr-8">
+          <div className="md:mx-auto md:flex md:justify-center md:relative md:gap-8 ">
+            <div className={cn(s['gallery-container'])}>
+              <ProductGallery galleryEntries={productResult.images.edges} />
             </div>
-            <div className="flex mt-4 tracking-widest justify-center">
-              <span className="text-base">
-                {getProductPrice({ price: activeVariant!.price }).price}
-              </span>
-              <span className="text-[13px] line-through text-gray-600 h-fit align-bottom pt-[3px] ml-1">
-                {
-                  getProductPrice({ price: activeVariant!.compareAtPrice })
-                    .price
-                }
-              </span>
-            </div>
+            <div className={cn('px-4 py-8', s['info-container'])}>
+              <div>
+                <h1 className="text-black text-[22px] text-center">
+                  {productResult.title}
+                </h1>
+                <span className="mt-3 text-center block text-black text-[13px] uppercase tracking-widest">
+                  {productResult.collections.edges[0].node.title}
+                </span>
+              </div>
+              <div className="flex mt-4 tracking-widest justify-center">
+                <span className="text-base">
+                  {getProductPrice({ price: activeVariant!.price }).price}
+                </span>
+                <span className="text-[13px] line-through text-gray-600 h-fit align-bottom pt-[3px] ml-1">
+                  {
+                    getProductPrice({ price: activeVariant!.compareAtPrice })
+                      .price
+                  }
+                </span>
+              </div>
 
-            <div className="mt-8">
-              {isConfigurableProduct && (
-                <OptionSelector
-                  product={productResult}
-                  activeVariant={activeVariant!}
-                  updateActiveVariant={updateActiveVariant}
-                />
-              )}
-            </div>
+              <div className="mt-8">
+                {isConfigurableProduct && (
+                  <OptionSelector
+                    product={productResult}
+                    activeVariant={activeVariant!}
+                    updateActiveVariant={updateActiveVariant}
+                  />
+                )}
+              </div>
 
-            <div className="mt-8">
-              <Button
-                onClick={handleAddToCart}
-                variant={'filled'}
-                className="w-full"
-                disabled={!isProductInStock}
-                loading={isAddingToCart}
-              >
-                {isProductInStock ? 'Add to Cart' : 'Out of stock'}
-              </Button>
-            </div>
+              <div className="mt-8">
+                <Button
+                  onClick={handleAddToCart}
+                  variant={'filled'}
+                  className="w-full"
+                  disabled={!isProductInStock}
+                  loading={isAddingToCart}
+                >
+                  {isProductInStock ? 'Add to Cart' : 'Out of stock'}
+                </Button>
+              </div>
 
-            <div
-              className={cn('mt-8', s['description-html'])}
-              dangerouslySetInnerHTML={{
-                __html: productResult.descriptionHtml
-              }}
-            />
+              <div
+                className={cn('mt-8', s['description-html'])}
+                dangerouslySetInnerHTML={{
+                  __html: productResult.descriptionHtml
+                }}
+              />
+            </div>
           </div>
         </div>
-      </div>
+        <div>
+          <div
+            className={cn(s['content-html'])}
+            dangerouslySetInnerHTML={{
+              __html: pageData.body
+            }}
+          />
+        </div>
+      </>
     </>
   )
 }

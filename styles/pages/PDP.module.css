@@ -20,3 +20,19 @@
   width: 30%;
   padding-top: 32px;
 }
+
+.content-html {
+  @apply md:py-[72px];
+}
+
+.content-html img {
+  @apply w-full max-h-96 object-cover md:mb-10;
+}
+
+.content-html h2 {
+  @apply text-[28px];
+}
+
+.content-html p {
+  @apply text-sm;
+}
