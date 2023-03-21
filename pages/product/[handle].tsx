@@ -45,6 +45,8 @@ type ProductDetailPageProps = {
 }
 
 const PDP = ({ productResult }: ProductDetailPageProps) => {
+  const [isAddingToCart, setIsAddingToCart] = useState(false)
+
   const { addProductToCart } = useCart()
 
   const [activeVariant, setActiveVariant] = useState(
@@ -52,14 +54,22 @@ const PDP = ({ productResult }: ProductDetailPageProps) => {
   )
 
   const isConfigurableProduct = !!productResult?.options?.length
-  const isProductInOfStock = activeVariant!.availableForSale
+  const isProductInStock = activeVariant!.availableForSale
 
   const handleAddToCart = async () => {
     const { id } = activeVariant!
 
     // TODO: add loading state to button
 
-    if (isProductInOfStock) await addProductToCart(id)
+    if (!isAddingToCart) {
+      if (isProductInStock) {
+        setIsAddingToCart(true)
+
+        await addProductToCart(id)
+
+        setIsAddingToCart(false)
+      }
+    }
   }
 
   const updateActiveVariant = useCallback(
@@ -130,9 +140,10 @@ const PDP = ({ productResult }: ProductDetailPageProps) => {
                 onClick={handleAddToCart}
                 variant={'filled'}
                 className="w-full"
-                disabled={!isProductInOfStock}
+                disabled={!isProductInStock}
+                loading={isAddingToCart}
               >
-                {isProductInOfStock ? 'Add to Cart' : 'Out of stock'}
+                {isProductInStock ? 'Add to Cart' : 'Out of stock'}
               </Button>
             </div>
 
