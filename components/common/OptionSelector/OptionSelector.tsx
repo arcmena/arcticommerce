@@ -44,7 +44,9 @@ const OptionSelector = ({
             )}
 
             {name === 'Color' && (
-              <span className="uppercase tracking-[1px]">{values[0]}</span>
+              <span className="uppercase tracking-[1px]">
+                {activeOptions[1].value}
+              </span>
             )}
           </div>
 
