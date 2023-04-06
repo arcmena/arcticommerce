@@ -11,11 +11,13 @@ import { getPage } from '@shopify/operations/page/getPage'
 import { getProductRecommendations } from '@shopify/operations/product/getProductRecommendations'
 
 import Button from '@components/Elements/Button'
-import { OptionSelector } from '@components/common/OptionSelector'
+import { OptionSelector } from '@components/product/OptionSelector'
 import ProductGallery from '@components/product/ProductGallery'
 import { useCart } from '@components/common/Cart/Context'
 
 import s from 'styles/pages/PDP.module.css'
+
+import ProductCard from '@components/product/ProductCard'
 
 type ProductDetailResultType = {
   productByHandle?: ProductWithVariants
@@ -54,7 +56,7 @@ export const getServerSideProps: GetServerSideProps = async props => {
 type ProductDetailPageProps = {
   productResult: ProductWithVariants
   pageData: Page
-  recommendedProducts?: Product
+  recommendedProducts?: ProductWithVariants[]
 }
 
 const PDP = ({
@@ -187,6 +189,19 @@ const PDP = ({
             />
           ) : null}
         </div>
+
+        {recommendedProducts ? (
+          <div className="bg-[#f7f7f7] py-8 px-4">
+            <h2 className="text-[22px] text-center">You may also like</h2>
+
+            {/* Product Grid */}
+            <div className="grid grid-cols-2 gap-4">
+              {recommendedProducts.map(product => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </div>
+          </div>
+        ) : null}
       </>
     </>
   )

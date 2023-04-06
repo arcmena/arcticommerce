@@ -1,7 +1,7 @@
 import { gql } from 'graphql-request'
 
 import { shopifyClient } from '@shopify/client'
-import { Product } from '@shopify/schema'
+import { ProductWithVariants } from '@shopify/schema'
 
 const productRecommendationsQuery = gql`
   query productRecommendationsQuery($productId: ID!) {
@@ -20,12 +20,42 @@ const productRecommendationsQuery = gql`
           }
         }
       }
+      variants(first: 10) {
+        edges {
+          node {
+            id
+            sku
+            title
+            availableForSale
+            price {
+              amount
+              currencyCode
+            }
+            compareAtPrice {
+              amount
+              currencyCode
+            }
+            selectedOptions {
+              name
+              value
+            }
+          }
+        }
+      }
+      options(first: 10) {
+        id
+        name
+        values
+      }
+      swatchImages: metafield(namespace: "custom", key: "swatch_images") {
+        value
+      }
     }
   }
 `
 
 export interface GetProductRecommendationsResult {
-  productRecommendations?: Product[]
+  productRecommendations?: ProductWithVariants[]
 }
 
 const getProductRecommendations = async (productId: string) => {

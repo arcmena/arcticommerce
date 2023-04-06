@@ -1,11 +1,6 @@
 import cn from 'classnames'
 
-import {
-  Entities,
-  ProductOption,
-  ProductVariant,
-  ProductWithVariants
-} from '@shopify/schema'
+import { ProductVariant, ProductWithVariants } from '@shopify/schema'
 
 import s from './OptionSelector.module.css'
 
