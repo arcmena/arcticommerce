@@ -4,9 +4,11 @@ import Head from 'next/head'
 import cn from 'classnames'
 
 import { shopifyClient } from '@shopify/client'
-import { Page, ProductWithVariants } from '@shopify/schema'
+import { Page, Product, ProductWithVariants } from '@shopify/schema'
 import { productDetailQuery } from '@shopify/queries/productDetailQuery'
 import { getProductPrice } from '@shopify/utils/getProductPrice'
+import { getPage } from '@shopify/operations/page/getPage'
+import { getProductRecommendations } from '@shopify/operations/product/getProductRecommendations'
 
 import Button from '@components/Elements/Button'
 import { OptionSelector } from '@components/common/OptionSelector'
@@ -14,7 +16,6 @@ import ProductGallery from '@components/product/ProductGallery'
 import { useCart } from '@components/common/Cart/Context'
 
 import s from 'styles/pages/PDP.module.css'
-import { getPage } from '@shopify/operations/page/getPage'
 
 type ProductDetailResultType = {
   productByHandle?: ProductWithVariants
@@ -29,18 +30,23 @@ export const getServerSideProps: GetServerSideProps = async props => {
       handle: handle
     })
 
-  const pageData = await getPage(handle)
-
   if (!productByHandle) {
     return {
       notFound: true
     }
   }
 
+  const pageData = await getPage(handle)
+
+  const recommendedProducts = await getProductRecommendations(
+    productByHandle.id
+  )
+
   return {
     props: {
       productResult: productByHandle,
-      pageData: pageData.page
+      pageData: pageData.page,
+      recommendedProducts
     }
   }
 }
@@ -48,9 +54,14 @@ export const getServerSideProps: GetServerSideProps = async props => {
 type ProductDetailPageProps = {
   productResult: ProductWithVariants
   pageData: Page
+  recommendedProducts?: Product
 }
 
-const PDP = ({ productResult, pageData }: ProductDetailPageProps) => {
+const PDP = ({
+  productResult,
+  pageData,
+  recommendedProducts
+}: ProductDetailPageProps) => {
   const [isAddingToCart, setIsAddingToCart] = useState(false)
 
   const { addProductToCart } = useCart()
@@ -65,8 +76,6 @@ const PDP = ({ productResult, pageData }: ProductDetailPageProps) => {
 
   const handleAddToCart = async () => {
     const { id } = activeVariant!
-
-    // TODO: add loading state to button
 
     if (!isAddingToCart) {
       if (isProductInStock) {
