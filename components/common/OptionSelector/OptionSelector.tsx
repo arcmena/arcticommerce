@@ -27,7 +27,7 @@ const OptionSelector = ({
 }: OptionSelectorProps) => {
   const { options, swatchImages } = product
 
-  const previewImages = JSON.parse(swatchImages?.value!)
+  const previewImages = swatchImages && JSON.parse(swatchImages?.value!)
 
   const activeOptions = activeVariant.selectedOptions
 
@@ -37,17 +37,17 @@ const OptionSelector = ({
         <div key={name}>
           <div className="flex gap-2 pb-2 text-[13px] uppercase tracking-[1px]">
             <label className="inline">{name}</label>
-            {name === 'Size' && (
+            {name === 'Size' ? (
               <button className="ml-auto uppercase tracking-[1px] underline">
                 Size Chart
               </button>
-            )}
+            ) : null}
 
-            {name === 'Color' && (
+            {name === 'Color' ? (
               <span className="uppercase tracking-[1px]">
-                {activeOptions[1].value}
+                {activeOptions.find(option => option.name === 'Color')?.value}
               </span>
-            )}
+            ) : null}
           </div>
 
           <div
@@ -97,7 +97,9 @@ const OptionSelector = ({
                     'border-2 border-gray-200 w-[40px] min-w-[40px] h-[40px] rounded-full relative inline-block',
                     s['swatch'],
                     {
-                      [s['swatch-active']]: activeOptions[1].value === val
+                      [s['swatch-active']]:
+                        activeOptions.find(option => option.name === 'Color')
+                          ?.value === val
                       // [s['swatch-inactive']]: index === 1
                     }
                   )}

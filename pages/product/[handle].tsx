@@ -59,7 +59,8 @@ const PDP = ({ productResult, pageData }: ProductDetailPageProps) => {
     productResult?.variants?.edges[0].node
   )
 
-  const isConfigurableProduct = !!productResult?.options?.length
+  const isConfigurableProduct = productResult?.options?.[0].name !== 'Title'
+
   const isProductInStock = activeVariant!.availableForSale
 
   const handleAddToCart = async () => {
@@ -117,19 +118,21 @@ const PDP = ({ productResult, pageData }: ProductDetailPageProps) => {
                   {productResult.title}
                 </h1>
                 <span className="mt-3 text-center block text-black text-[13px] uppercase tracking-widest">
-                  {productResult.collections.edges[0].node.title}
+                  {productResult.collections?.edges[0]?.node?.title}
                 </span>
               </div>
               <div className="flex mt-4 tracking-widest justify-center">
                 <span className="text-base">
                   {getProductPrice({ price: activeVariant!.price }).price}
                 </span>
-                <span className="text-[13px] line-through text-gray-600 h-fit align-bottom pt-[3px] ml-1">
-                  {
-                    getProductPrice({ price: activeVariant!.compareAtPrice })
-                      .price
-                  }
-                </span>
+                {activeVariant!.compareAtPrice ? (
+                  <span className="text-[13px] line-through text-gray-600 h-fit align-bottom pt-[3px] ml-1">
+                    {
+                      getProductPrice({ price: activeVariant!.compareAtPrice })
+                        .price
+                    }
+                  </span>
+                ) : null}
               </div>
 
               <div className="mt-8">
@@ -154,22 +157,26 @@ const PDP = ({ productResult, pageData }: ProductDetailPageProps) => {
                 </Button>
               </div>
 
-              <div
-                className={cn('mt-8', s['description-html'])}
-                dangerouslySetInnerHTML={{
-                  __html: productResult.descriptionHtml
-                }}
-              />
+              {productResult.descriptionHtml ? (
+                <div
+                  className={cn('mt-8', s['description-html'])}
+                  dangerouslySetInnerHTML={{
+                    __html: productResult.descriptionHtml
+                  }}
+                />
+              ) : null}
             </div>
           </div>
         </div>
         <div>
-          <div
-            className={cn(s['content-html'])}
-            dangerouslySetInnerHTML={{
-              __html: pageData.body
-            }}
-          />
+          {pageData?.body ? (
+            <div
+              className={cn(s['content-html'])}
+              dangerouslySetInnerHTML={{
+                __html: pageData.body
+              }}
+            />
+          ) : null}
         </div>
       </>
     </>
