@@ -14,10 +14,9 @@ import Button from '@components/Elements/Button'
 import { OptionSelector } from '@components/product/OptionSelector'
 import ProductGallery from '@components/product/ProductGallery'
 import { useCart } from '@components/common/Cart/Context'
+import ProductCard from '@components/product/ProductCard'
 
 import s from 'styles/pages/PDP.module.css'
-
-import ProductCard from '@components/product/ProductCard'
 
 type ProductDetailResultType = {
   productByHandle?: ProductWithVariants
@@ -191,14 +190,18 @@ const PDP = ({
         </div>
 
         {recommendedProducts ? (
-          <div className="bg-[#f7f7f7] py-8 px-4">
-            <h2 className="text-[22px] text-center">You may also like</h2>
+          <div className="bg-[#f7f7f7] py-8 px-4 md:py-[72px] md:px-12">
+            <div className=" max-w-[1200px] mx-auto">
+              <h2 className="text-[22px] md:text-[28px] text-center">
+                You may also like
+              </h2>
 
-            {/* Product Grid */}
-            <div className="grid grid-cols-2 gap-4">
-              {recommendedProducts.map(product => (
-                <ProductCard key={product.id} product={product} />
-              ))}
+              {/* Product Grid */}
+              <div className="grid grid-cols-2 gap-4 md:mt-8 md:grid-cols-4 md:gap-8">
+                {recommendedProducts.map(product => (
+                  <ProductCard key={product.id} product={product} />
+                ))}
+              </div>
             </div>
           </div>
         ) : null}
