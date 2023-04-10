@@ -48,3 +48,12 @@
 .content-html p {
   @apply text-sm;
 }
+
+.breadcrumbs li:not(:last-of-type) {
+  @apply underline;
+}
+
+.breadcrumbs li:not(:last-of-type):after {
+  content: '';
+  @apply w-[4px] h-[4px] rounded-full bg-[#111111] mb-[2px] ml-[8px];
+}

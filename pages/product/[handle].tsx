@@ -17,6 +17,7 @@ import { useCart } from '@components/common/Cart/Context'
 import ProductCard from '@components/product/ProductCard'
 
 import s from 'styles/pages/PDP.module.css'
+import Link from 'next/link'
 
 type ProductDetailResultType = {
   productByHandle?: ProductWithVariants
@@ -123,15 +124,27 @@ const PDP = ({
               <ProductGallery galleryEntries={productResult.images.edges} />
             </div>
             <div className={cn('px-4 py-8', s['info-container'])}>
+              <div className={cn('hidden md:inline', s['breadcrumbs'])}>
+                <ul className="flex gap-2 flex-wrap align-baseline pb-3 text-xs capitalize italic">
+                  <li className="inline-flex items-center">
+                    <Link href="/">Home</Link>
+                  </li>
+                  <li className="inline-flex items-center">
+                    <Link href="/collections/all">Product</Link>
+                  </li>
+                  <li>{productResult.title}</li>
+                </ul>
+              </div>
+
               <div>
-                <h1 className="text-black text-[22px] text-center">
+                <h1 className="text-black text-[22px] md:text-[28px] text-center md:text-left">
                   {productResult.title}
                 </h1>
-                <span className="mt-3 text-center block text-black text-[13px] uppercase tracking-widest">
+                <span className="mt-3 text-center md:text-left block text-black text-[13px] md:text-xs uppercase tracking-widest">
                   {productResult.collections?.edges[0]?.node?.title}
                 </span>
               </div>
-              <div className="flex mt-4 tracking-widest justify-center">
+              <div className="flex mt-4 tracking-widest justify-center md:justify-start">
                 <span className="text-base">
                   {getProductPrice({ price: activeVariant!.price }).price}
                 </span>
