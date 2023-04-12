@@ -32,14 +32,6 @@ const Header = () => {
           <a className="hidden lg:flex md:p-4 text-black text-[13px] font-light tracking-widest items-center">
             SHOP <ChevronDownIcon className="w-3 ml-1 text-black" />
           </a>
-
-          <a className="hidden lg:inline md:p-4 text-black text-[13px] font-light tracking-widest">
-            ABOUT
-          </a>
-
-          <a className="hidden lg:inline md:p-4 text-black text-[13px] font-light tracking-widest">
-            JOURNAL
-          </a>
         </div>
 
         <div className="mx-auto">
