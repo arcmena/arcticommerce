@@ -1,4 +1,4 @@
-import Button from '@components/Elements/Button'
+import Button from '@components/elements/Button'
 import { useLayout } from '@components/common/Layout/Context'
 
 import { Checkout } from '@shopify/schema'

@@ -10,7 +10,7 @@ import { getProductPrice } from '@shopify/utils/getProductPrice'
 import { getPage } from '@shopify/operations/page/getPage'
 import { getProductRecommendations } from '@shopify/operations/product/getProductRecommendations'
 
-import Button from '@components/Elements/Button'
+import Button from '@components/elements/Button'
 import { OptionSelector } from '@components/product/OptionSelector'
 import ProductGallery from '@components/product/ProductGallery'
 import { useCart } from '@components/common/Cart/Context'
