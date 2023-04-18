@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { GetServerSideProps } from 'next'
 import Head from 'next/head'
 import cn from 'classnames'
@@ -71,6 +71,10 @@ const PDP = ({
   const [activeVariant, setActiveVariant] = useState(
     productResult?.variants?.edges[0].node
   )
+
+  useEffect(() => {
+    setActiveVariant(productResult?.variants?.edges[0].node)
+  }, [productResult])
 
   const isConfigurableProduct = productResult?.options?.[0].name !== 'Title'
 
