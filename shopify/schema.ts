@@ -7,6 +7,7 @@ export interface Collection {
   id: string
   title: string
   handle: string
+  products: Entities<Product>
 }
 
 export interface Product {

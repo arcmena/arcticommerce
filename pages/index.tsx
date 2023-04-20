@@ -2,33 +2,39 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { GetServerSideProps } from 'next/types'
 
-import { productsQuery } from '@shopify/queries/productsQuery'
 import { shopifyClient } from '@shopify/client'
-import { Product, Entities } from '@shopify/schema'
+import { Entities, Collection } from '@shopify/schema'
+import { collectionsQuery } from '@shopify/queries/collectionsQuery'
 
 import ProductGrid from '@components/product/ProductGrid/ProductGrid'
 
 type ProductsResultType = {
-  products?: Entities<Product>
+  collections?: Entities<Collection>
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const productsResult = await shopifyClient.request<ProductsResultType>(
-    productsQuery
+  const collectionsResult = await shopifyClient.request<ProductsResultType>(
+    collectionsQuery
+  )
+
+  const collectionsWithProducts = collectionsResult.collections?.edges.filter(
+    collection => collection.node.products.edges.length !== 0
   )
 
   return {
     props: {
-      productsResult: productsResult.products
+      collectionsResult: collectionsWithProducts
     }
   }
 }
 
 type HomePageProps = {
-  productsResult?: Entities<Product>
+  collectionsResult?: [{ node: Collection }]
 }
 
-const HomePage = ({ productsResult }: HomePageProps) => {
+const HomePage = ({ collectionsResult }: HomePageProps) => {
+  const featuredCollection = collectionsResult?.[0].node
+
   return (
     <>
       <Head>
@@ -46,15 +52,18 @@ const HomePage = ({ productsResult }: HomePageProps) => {
             height={500}
           />
         </div>
-        {productsResult ? (
+        {featuredCollection &&
+        featuredCollection?.products.edges.length !== 0 ? (
           <div className="bg-[#ffffff] py-8 px-4 md:py-[72px] md:px-12">
             <div className="mx-auto">
               <h2 className="text-[22px] md:text-[28px] text-center">
-                Winter Collection
+                {featuredCollection.title}
               </h2>
 
               <ProductGrid
-                products={productsResult?.edges.map(item => item.node)}
+                products={featuredCollection.products?.edges.map(
+                  item => item.node
+                )}
               />
             </div>
           </div>
