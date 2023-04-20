@@ -1,1 +1,1 @@
-export { default } from './Sidebar'
+export { SIDEBAR_ORIENTATION, default as Sidebar } from './Sidebar'

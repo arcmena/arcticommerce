@@ -1,4 +1,4 @@
-import Sidebar from '@components/elements/Sidebar'
+import { Sidebar } from '@components/elements/Sidebar'
 import { useLayout } from '../Layout/Context'
 
 const MenuSidebar = () => {
