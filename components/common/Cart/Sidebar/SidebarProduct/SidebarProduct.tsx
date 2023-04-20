@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { MinusIcon, PlusIcon } from '@heroicons/react/24/solid'
+import cn from 'classnames'
 
 import { getProductUrl } from '@shopify/utils/getProductUrl'
 import { getProductPrice } from '@shopify/utils/getProductPrice'
@@ -15,7 +16,7 @@ interface SidebarProductProps {
 const SidebarProduct = ({ productData }: SidebarProductProps) => {
   const { variant } = productData
 
-  const { updateCartProduct, removeCartProduct } = useCart()
+  const { updateCartProduct, removeCartProduct, isCartLoading } = useCart()
 
   const { price } = getProductPrice({ price: variant.price })
   const originalProductUrl = getProductUrl(variant.product.handle)
@@ -41,7 +42,12 @@ const SidebarProduct = ({ productData }: SidebarProductProps) => {
   const handleRemove = () => removeCartProduct(productData.id)
 
   return (
-    <div className="flex items-start flex-wrap gap-3 py-4 border-b-[1px] border-gray-200">
+    <div
+      className={cn(
+        'flex items-start flex-wrap gap-3 py-4 border-b-[1px] border-gray-200',
+        { ['opacity-40 pointer-events-none']: isCartLoading }
+      )}
+    >
       <div className="w-full text-center">
         <Link
           href={originalProductUrl}

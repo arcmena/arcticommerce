@@ -3,6 +3,7 @@ import { useLayout } from '@components/common/Layout/Context'
 
 import { Checkout } from '@shopify/schema'
 import { getProductPrice } from '@shopify/utils/getProductPrice'
+import { useCart } from '../../Context'
 
 interface SidebarFooterProps {
   checkout: Checkout
@@ -11,6 +12,7 @@ interface SidebarFooterProps {
 const SidebarFooter = (props: SidebarFooterProps) => {
   const { checkout } = props
   const { totalPrice } = checkout
+  const { isCartLoading } = useCart()
 
   const { price: totalCheckoutPrice } = getProductPrice({ price: totalPrice })
 
@@ -50,7 +52,13 @@ const SidebarFooter = (props: SidebarFooterProps) => {
         </div>
 
         <div>
-          <Button className="w-full">Checkout</Button>
+          <Button
+            className="w-full"
+            disabled={isCartLoading}
+            loading={isCartLoading}
+          >
+            Checkout
+          </Button>
 
           <button
             onClick={closeCartSidebar}

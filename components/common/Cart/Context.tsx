@@ -4,7 +4,8 @@ import {
   ReactNode,
   useCallback,
   useContext,
-  useMemo
+  useMemo,
+  useState
 } from 'react'
 import useSWR, { KeyedMutator } from 'swr'
 
@@ -40,7 +41,7 @@ const CartContext = createContext({} as CartContextType)
 
 const CartProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const {
-    isLoading: isCartLoading,
+    isLoading: isCartQueryLoading,
     isValidating: isCartValidating,
     mutate: mutateCart,
     data: cartData,
@@ -48,6 +49,8 @@ const CartProvider: FC<{ children: ReactNode }> = ({ children }) => {
   } = useSWR('cart', getCheckout, {
     revalidateOnFocus: false
   })
+
+  const [isCartLoading, setIsCartLoading] = useState(false)
 
   const isCartEmpty = useMemo(() => {
     if (cartData?.node) {
@@ -84,22 +87,30 @@ const CartProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
   const updateCartProduct = useCallback(
     async (product: UpdateCheckoutInput) => {
+      setIsCartLoading(true)
+
       const checkoutUpdated = await checkoutLineItemsUpdate(product)
 
       if (checkoutUpdated.checkout) {
         mutateCart({ node: checkoutUpdated.checkout }, { revalidate: false })
       }
+
+      setIsCartLoading(false)
     },
     [mutateCart]
   )
 
   const removeCartProduct = useCallback(
     async (productId: string) => {
+      setIsCartLoading(true)
+
       const checkoutUpdated = await checkoutLineItemsRemove({ productId })
 
       if (checkoutUpdated.checkout) {
         mutateCart({ node: checkoutUpdated.checkout }, { revalidate: false })
       }
+
+      setIsCartLoading(false)
     },
     [mutateCart]
   )
