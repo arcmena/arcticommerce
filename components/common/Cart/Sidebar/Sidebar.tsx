@@ -1,13 +1,12 @@
 import cn from 'classnames'
 
 import Sidebar from '@components/elements/Sidebar'
-import { SIDEBAR_ORIENTATION } from '@components/elements/Sidebar/Sidebar'
+import { SIDEBAR_ORIENTATION } from '@components/elements/Sidebar'
 import SidebarProduct from './SidebarProduct'
 import SidebarFooter from './SidebarFooter'
 
 import { useLayout } from '../../Layout/Context'
 import { useCart } from '../Context'
-import { useMemo } from 'react'
 
 const NoItemsMessage = () => (
   <div className="text-center">
