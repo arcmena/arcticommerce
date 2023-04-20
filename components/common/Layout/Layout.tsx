@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import Header from '../Header'
 import Footer from '../Footer'
 import MenuSidebar from '../MenuSidebar'
-import CartSidebar from '../Cart/Sidebar/Sidebar'
+import CartSidebar from '../Cart/CartSidebar/CartSidebar'
 import { useLayout } from './Context'
 
 const Backdrop = ({ onBackdropClick }: { onBackdropClick: () => void }) => {
