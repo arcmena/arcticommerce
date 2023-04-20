@@ -1,8 +1,6 @@
 import cn from 'classnames'
 
-import Sidebar, {
-  SIDEBAR_ORIENTATION
-} from '@components/elements/Sidebar/Sidebar'
+import Sidebar, { SIDEBAR_ORIENTATION } from '@components/elements/Sidebar'
 import SidebarProduct from './SidebarProduct'
 import SidebarFooter from './SidebarFooter'
 
