@@ -12,7 +12,7 @@ type ProductsResultType = {
   collections?: Entities<Collection>
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getStaticProps: GetServerSideProps = async () => {
   const collectionsResult = await shopifyClient.request<ProductsResultType>(
     collectionsQuery
   )

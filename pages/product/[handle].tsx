@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useState } from 'react'
-import { GetServerSideProps } from 'next'
+import { GetServerSideProps, GetStaticPaths, GetStaticProps } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
 import cn from 'classnames'
 
 import { shopifyClient } from '@shopify/client'
-import { Page, ProductWithVariants } from '@shopify/schema'
+import { Entities, Page, Product, ProductWithVariants } from '@shopify/schema'
 import { productDetailQuery } from '@shopify/queries/productDetailQuery'
 import { getProductPrice } from '@shopify/utils/getProductPrice'
 import { getPage } from '@shopify/operations/page/getPage'
@@ -18,12 +18,41 @@ import { useCart } from '@components/common/Cart/Context'
 import ProductCard from '@components/product/ProductCard'
 
 import s from 'styles/pages/PDP.module.css'
+import { productsQuery } from '@shopify/queries/productsQuery'
+import { productIndexQuery } from '@shopify/queries/productIndexQuery'
 
 type ProductDetailResultType = {
   productByHandle?: ProductWithVariants
 }
 
-export const getServerSideProps: GetServerSideProps = async props => {
+type ProductIndexResultType = {
+  products?: Entities<Product>
+}
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const productsIndex = await shopifyClient.request<ProductIndexResultType>(
+    productIndexQuery
+  )
+
+  const productPaths = productsIndex.products?.edges.map(product => {
+    return {
+      params: {
+        handle: product.node.handle
+      }
+    }
+  }) as {
+    params: {
+      handle: string
+    }
+  }[]
+
+  return {
+    paths: productPaths,
+    fallback: false
+  }
+}
+
+export const getStaticProps: GetStaticProps = async props => {
   const { params } = props
   const { handle } = params as { handle: string }
 
