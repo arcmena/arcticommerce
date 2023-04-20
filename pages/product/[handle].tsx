@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useState } from 'react'
 import { GetServerSideProps } from 'next'
 import Head from 'next/head'
+import Link from 'next/link'
 import cn from 'classnames'
 
 import { shopifyClient } from '@shopify/client'
-import { Page, Product, ProductWithVariants } from '@shopify/schema'
+import { Page, ProductWithVariants } from '@shopify/schema'
 import { productDetailQuery } from '@shopify/queries/productDetailQuery'
 import { getProductPrice } from '@shopify/utils/getProductPrice'
 import { getPage } from '@shopify/operations/page/getPage'
@@ -17,7 +18,6 @@ import { useCart } from '@components/common/Cart/Context'
 import ProductCard from '@components/product/ProductCard'
 
 import s from 'styles/pages/PDP.module.css'
-import Link from 'next/link'
 
 type ProductDetailResultType = {
   productByHandle?: ProductWithVariants

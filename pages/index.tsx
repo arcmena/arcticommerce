@@ -1,11 +1,12 @@
 import Head from 'next/head'
-import Link from 'next/link'
+import Image from 'next/image'
 import { GetServerSideProps } from 'next/types'
 
 import { productsQuery } from '@shopify/queries/productsQuery'
 import { shopifyClient } from '@shopify/client'
 import { Product, Entities } from '@shopify/schema'
-import Image from 'next/image'
+
+import ProductGrid from '@components/product/ProductGrid/ProductGrid'
 
 type ProductsResultType = {
   products?: Entities<Product>
@@ -45,14 +46,19 @@ const HomePage = ({ productsResult }: HomePageProps) => {
             height={500}
           />
         </div>
-        {productsResult?.edges.map(({ node }) => (
-          <Link key={node.id} href={`/product/${node.handle}`}>
-            <h2>
-              {node.title} <span>-&gt;</span>
-            </h2>
-            <p>{node.description}</p>
-          </Link>
-        ))}
+        {productsResult ? (
+          <div className="bg-[#ffffff] py-8 px-4 md:py-[72px] md:px-12">
+            <div className="mx-auto">
+              <h2 className="text-[22px] md:text-[28px] text-center">
+                Winter Collection
+              </h2>
+
+              <ProductGrid
+                products={productsResult?.edges.map(item => item.node)}
+              />
+            </div>
+          </div>
+        ) : null}
       </div>
     </>
   )

@@ -9,13 +9,45 @@ const productsQuery = gql`
           handle
           title
           description
-          images(first: 1) {
+          descriptionHtml
+          availableForSale
+          images(first: 10) {
             edges {
               node {
                 url
                 altText
               }
             }
+          }
+          variants(first: 10) {
+            edges {
+              node {
+                id
+                sku
+                title
+                availableForSale
+                price {
+                  amount
+                  currencyCode
+                }
+                compareAtPrice {
+                  amount
+                  currencyCode
+                }
+                selectedOptions {
+                  name
+                  value
+                }
+              }
+            }
+          }
+          options(first: 10) {
+            id
+            name
+            values
+          }
+          swatchImages: metafield(namespace: "custom", key: "swatch_images") {
+            value
           }
         }
       }
