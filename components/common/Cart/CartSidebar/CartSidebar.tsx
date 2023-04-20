@@ -5,7 +5,9 @@ import SidebarFooter from './SidebarFooter'
 
 import { useLayout } from '../../Layout/Context'
 import { useCart } from '../Context'
-import { SIDEBAR_ORIENTATION, Sidebar } from '@components/elements/Sidebar'
+import Sidebar, {
+  SIDEBAR_ORIENTATION
+} from '@components/elements/Sidebar/Sidebar'
 
 const NoItemsMessage = () => (
   <div className="text-center">
