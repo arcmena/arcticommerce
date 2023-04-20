@@ -1,7 +1,7 @@
 import cn from 'classnames'
 
-import Sidebar from '@components/elements/Sidebar/Sidebar'
-import { SIDEBAR_ORIENTATION } from '@components/elements/Sidebar/Sidebar'
+import Sidebar from '../Sidebar/../../../elements/Sidebar/Sidebar'
+import { SIDEBAR_ORIENTATION } from '../Sidebar/../../../elements/Sidebar/Sidebar'
 import SidebarProduct from './SidebarProduct'
 import SidebarFooter from './SidebarFooter'
 
