@@ -67,14 +67,17 @@ const SidebarProduct = ({ productData }: SidebarProductProps) => {
         style={{ maxWidth: 'calc(65% - 12px)' }}
       >
         <div className="pb-3">
-          <Link
-            href={originalProductUrl}
-            className="text-[13px] tracking-[1px]"
-          >
-            {variant.title}
-          </Link>
-
-          <br />
+          {variant.title !== 'Default Title' ? (
+            <>
+              <Link
+                href={originalProductUrl}
+                className="text-[13px] tracking-[1px]"
+              >
+                {variant.title}
+              </Link>
+              <br />
+            </>
+          ) : null}
 
           <span className="text-[13px] tracking-[1px]">{price}</span>
         </div>

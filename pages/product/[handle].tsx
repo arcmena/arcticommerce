@@ -151,8 +151,8 @@ const PDP = ({
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <>
-        <div className="md:pr-8">
-          <div className="md:mx-auto md:flex md:justify-center md:relative md:gap-8 ">
+        <div className="md:pr-8 md:pb-[72px]">
+          <div className="md:mx-auto md:flex md:justify-center md:relative md:gap-8">
             <div className={cn(s['gallery-container'])}>
               <ProductGallery galleryEntries={productResult.images.edges} />
             </div>
