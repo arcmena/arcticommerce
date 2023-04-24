@@ -45,7 +45,10 @@ const Sidebar = (props: SidebarProps) => {
       <button
         onClick={closeSidebar}
         style={closeButtonPosition}
-        className={cn('fixed z-50 top-3', isOpen ? 'inline' : 'hidden')}
+        className={cn(
+          'fixed z-50 top-3 cursor-pointer md:top-2 md:mr-2',
+          isOpen ? 'inline' : 'hidden'
+        )}
       >
         <XMarkIcon className="h-8 text-white" />
       </button>

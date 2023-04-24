@@ -25,11 +25,14 @@ const Header = () => {
             <Bars3Icon className="h-8 text-black" />
           </button>
 
-          <a className="hidden lg:inline md:p-4 text-black text-[13px] font-light tracking-widest">
+          <Link
+            href="/"
+            className='className="hidden lg:inline md:p-4 text-black text-[13px] md:text-[14px] md:font-normal font-light tracking-widest"'
+          >
             HOME
-          </a>
+          </Link>
 
-          <a className="hidden lg:flex md:p-4 text-black text-[13px] font-light tracking-widest items-center">
+          <a className="hidden lg:flex md:p-4 text-black text-[13px] md:text-[14px] md:font-normal font-light tracking-widest items-center">
             SHOP <ChevronDownIcon className="w-3 ml-1 text-black" />
           </a>
         </div>
@@ -41,12 +44,12 @@ const Header = () => {
         </div>
 
         <div className="flex justify-end" style={{ flex: '1 0 0' }}>
-          <a className="hidden md:inline md:p-4 text-black text-[13px] font-light tracking-widest">
+          <a className="hidden md:inline md:p-4 text-black text-[13px] md:text-[14px] md:font-normal font-light tracking-widest">
             SEARCH
           </a>
 
           <a
-            className="md:p-4 text-black text-[13px] font-light tracking-widest"
+            className="md:p-4 text-black text-[13px] md:text-[14px] md:font-normal font-light tracking-widest cursor-pointer"
             onClick={openCartSidebar}
           >
             CART {!isCartEmpty && `(${cartItemsCount})`}

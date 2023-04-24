@@ -17,7 +17,7 @@ const Backdrop = ({ onBackdropClick }: { onBackdropClick: () => void }) => {
     <div
       onClick={onBackdropClick}
       className={cn(
-        'bg-black h-full w-full top-0 left-0 fixed transition-opacity ease-in-out duration-300',
+        'bg-black h-full w-full top-0 left-0 fixed transition-opacity ease-in-out duration-300 cursor-pointer',
         isSidebarOpen ? 'opacity-30 z-40' : 'opacity-0 -z-50'
       )}
     />
