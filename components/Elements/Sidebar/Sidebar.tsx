@@ -1,11 +1,7 @@
 import cn from 'classnames'
 import { ReactNode } from 'react'
 import { XMarkIcon } from '@heroicons/react/24/solid'
-
-export enum SIDEBAR_ORIENTATION {
-  LEFT = 'left',
-  RIGHT = 'right'
-}
+import { SIDEBAR_ORIENTATION } from './types'
 
 interface SidebarProps {
   isOpen: boolean
