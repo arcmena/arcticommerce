@@ -83,7 +83,7 @@ const HomePage = ({ collectionsResult }: HomePageProps) => {
             }}
             className={s['container']}
           >
-            <SwiperSlide className="imageWrapper ">
+            <SwiperSlide className="imageWrapper">
               <Image
                 src="https://cdn.shopify.com/s/files/1/0696/9747/0737/files/Water-bottle-drinking_1000X1000_f16650bf-4bf7-49c6-b19d-875d024ccda7.webp?v=1682436617"
                 alt=""
@@ -96,7 +96,7 @@ const HomePage = ({ collectionsResult }: HomePageProps) => {
                 }}
               />
             </SwiperSlide>
-            <SwiperSlide className="imageWrapper ">
+            <SwiperSlide className="imageWrapper">
               <Image
                 src="https://cdn.shopify.com/s/files/1/0696/9747/0737/files/Rucksack_magazine_x_The_Level_Collective_journal_PNW_1.jpg?v=1682436617"
                 alt=""
@@ -109,7 +109,7 @@ const HomePage = ({ collectionsResult }: HomePageProps) => {
                 }}
               />
             </SwiperSlide>
-            <SwiperSlide className="imageWrapper ">
+            <SwiperSlide className="imageWrapper">
               <Image
                 src="https://cdn.shopify.com/s/files/1/0696/9747/0737/files/Simple-Mountain-Organic-Cotton-Sweater-Navy-BC-The-Level-Collective_1000X1000_38f71648-8352-4017-8ba0-553950912955.webp?v=1682436617"
                 alt=""

@@ -7,6 +7,7 @@ import Footer from '../Footer'
 import MenuSidebar from '../MenuSidebar'
 import CartSidebar from '../Cart/CartSidebar/CartSidebar'
 import { useLayout } from './Context'
+import Ribbon from '@components/Elements/Ribbon/Ribbon'
 
 const Backdrop = ({ onBackdropClick }: { onBackdropClick: () => void }) => {
   const { isMenuSidebarOpen, isCartSidebarOpen } = useLayout()
@@ -63,6 +64,7 @@ const Layout = ({ children }: LayoutProps) => {
           isSidebarOpen ? 'top-0 fixed' : 'top-[initial] relative'
         )}
       >
+        {router.pathname === '/' ? <Ribbon /> : null}
         <Header />
         <main>{children}</main>
         <Footer />
