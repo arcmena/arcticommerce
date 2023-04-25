@@ -128,7 +128,7 @@ const HomePage = ({ collectionsResult }: HomePageProps) => {
         featuredCollection?.products.edges.length !== 0 ? (
           <div className="bg-[#ffffff] py-8 px-4 md:py-[72px] md:px-12">
             <div className="mx-auto">
-              <h2 className="text-[22px] md:text-[28px] text-center">
+              <h2 className="text-[22px] md:text-[28px] text-center mb-8 md:mb-0">
                 {featuredCollection.title}
               </h2>
 
