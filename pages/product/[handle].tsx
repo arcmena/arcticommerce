@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { GetServerSideProps, GetStaticPaths, GetStaticProps } from 'next'
+import { GetStaticPaths, GetStaticProps } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
 import cn from 'classnames'
@@ -10,6 +10,7 @@ import { productDetailQuery } from '@shopify/queries/productDetailQuery'
 import { getProductPrice } from '@shopify/utils/getProductPrice'
 import { getPage } from '@shopify/operations/page/getPage'
 import { getProductRecommendations } from '@shopify/operations/product/getProductRecommendations'
+import { productIndexQuery } from '@shopify/queries/productIndexQuery'
 
 import Button from '@components/Elements/Button'
 import { OptionSelector } from '@components/product/OptionSelector'
@@ -18,8 +19,6 @@ import { useCart } from '@components/common/Cart/Context'
 import ProductCard from '@components/product/ProductCard'
 
 import s from 'styles/pages/PDP.module.css'
-import { productsQuery } from '@shopify/queries/productsQuery'
-import { productIndexQuery } from '@shopify/queries/productIndexQuery'
 
 type ProductDetailResultType = {
   productByHandle?: ProductWithVariants

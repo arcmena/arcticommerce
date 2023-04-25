@@ -1,0 +1,20 @@
+.container {
+  padding-bottom: 27px !important;
+}
+
+.container :global(.swiper-pagination-bullet-active) {
+  @apply bg-[#111111];
+}
+
+.pagination-bullet {
+  @apply bg-slate-600;
+}
+
+@screen md {
+  .container {
+    padding-bottom: 0px !important;
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+    width: 100%;
+  }
+}

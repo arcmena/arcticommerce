@@ -2,12 +2,21 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { GetServerSideProps } from 'next/types'
 import Link from 'next/link'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Autoplay, EffectFade, Navigation, Pagination } from 'swiper'
 
 import { shopifyClient } from '@shopify/client'
 import { Entities, Collection } from '@shopify/schema'
 import { collectionsQuery } from '@shopify/queries/collectionsQuery'
 
 import ProductGrid from '@components/product/ProductGrid/ProductGrid'
+
+import s from 'styles/pages/Home.module.css'
+
+import 'swiper/css'
+import 'swiper/css/effect-fade'
+import 'swiper/css/navigation'
+import 'swiper/css/pagination'
 
 type ProductsResultType = {
   collections?: Entities<Collection>
@@ -47,13 +56,73 @@ const HomePage = ({ collectionsResult }: HomePageProps) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div>
-        <div className="imageWrapper relative">
-          <Image
-            src="/mock-carousel-image.webp"
-            alt=""
-            width={500}
-            height={500}
-          />
+        <div className="relative flex">
+          <Swiper
+            slidesPerView="auto"
+            modules={[EffectFade, Navigation, Pagination, Autoplay]}
+            autoplay={{
+              delay: 2500
+            }}
+            pagination={{
+              dynamicBullets: true,
+              clickable: true
+            }}
+            breakpoints={{
+              320: {
+                slidesPerView: 1,
+                effect: 'fade'
+              },
+              640: {
+                slidesPerView: 1,
+                effect: 'fade'
+              },
+              768: {
+                slidesPerView: 3,
+                effect: 'fade'
+              }
+            }}
+            className={s['container']}
+          >
+            <SwiperSlide className="imageWrapper ">
+              <Image
+                src="https://cdn.shopify.com/s/files/1/0696/9747/0737/files/Water-bottle-drinking_1000X1000_f16650bf-4bf7-49c6-b19d-875d024ccda7.webp?v=1682436617"
+                alt=""
+                width={500}
+                height={500}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover'
+                }}
+              />
+            </SwiperSlide>
+            <SwiperSlide className="imageWrapper ">
+              <Image
+                src="https://cdn.shopify.com/s/files/1/0696/9747/0737/files/Rucksack_magazine_x_The_Level_Collective_journal_PNW_1.jpg?v=1682436617"
+                alt=""
+                width={500}
+                height={500}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover'
+                }}
+              />
+            </SwiperSlide>
+            <SwiperSlide className="imageWrapper ">
+              <Image
+                src="https://cdn.shopify.com/s/files/1/0696/9747/0737/files/Simple-Mountain-Organic-Cotton-Sweater-Navy-BC-The-Level-Collective_1000X1000_38f71648-8352-4017-8ba0-553950912955.webp?v=1682436617"
+                alt=""
+                width={500}
+                height={500}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover'
+                }}
+              />
+            </SwiperSlide>
+          </Swiper>
         </div>
         {featuredCollection &&
         featuredCollection?.products.edges.length !== 0 ? (

@@ -38,6 +38,7 @@ const ProductGallery = (props: ProductGalleryProps) => {
           slidesPerView={1.23}
           centeredSlides
           modules={[Pagination]}
+          autoHeight
           pagination={{
             dynamicBullets: true,
             clickable: true
