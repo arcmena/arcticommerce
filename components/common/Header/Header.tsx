@@ -27,7 +27,7 @@ const Header = () => {
 
           <Link
             href="/"
-            className='className="hidden lg:inline md:p-4 text-black text-[13px] md:text-[14px] md:font-normal font-light tracking-widest"'
+            className="hidden lg:inline md:p-4 text-black text-[13px] md:text-[14px] md:font-normal font-light tracking-widest"
           >
             HOME
           </Link>

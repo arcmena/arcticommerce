@@ -8,6 +8,7 @@ export interface Collection {
   title: string
   handle: string
   products: Entities<Product>
+  image: Image
 }
 
 export interface Product {

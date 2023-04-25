@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import { GetServerSideProps } from 'next/types'
+import Link from 'next/link'
 
 import { shopifyClient } from '@shopify/client'
 import { Entities, Collection } from '@shopify/schema'
@@ -33,7 +34,9 @@ type HomePageProps = {
 }
 
 const HomePage = ({ collectionsResult }: HomePageProps) => {
-  const featuredCollection = collectionsResult?.[0].node
+  const featuredCollection = collectionsResult?.[0]?.node
+
+  const featuredCollectionsGrid = collectionsResult?.slice(1).slice(0, 2)
 
   return (
     <>
@@ -66,6 +69,39 @@ const HomePage = ({ collectionsResult }: HomePageProps) => {
                 )}
               />
             </div>
+          </div>
+        ) : null}
+
+        {featuredCollectionsGrid && featuredCollectionsGrid.length !== 0 ? (
+          <div className="grid grid-cols-2 gap-4 text-center bg-[#f7f7f7] px-4 pt-8 pb-16 md:gap-8 md:px-12 md:pt-[72px] md:pb-[72px]">
+            {featuredCollectionsGrid.map(collection => (
+              <Link
+                key={collection.node.id}
+                href={`/collection/${collection.node.handle}`}
+                className="relative"
+              >
+                <div className="h-full flex flex-col">
+                  <div className="h-full min-h-full">
+                    <Image
+                      src={collection.node.image.url}
+                      alt={collection.node.image.altText || ''}
+                      width={500}
+                      height={500}
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover'
+                      }}
+                    />
+                  </div>
+                  <div className="mt-3 md:mt-0 md:absolute md:w-full md:h-full md:flex md:items-center md:justify-center md:opacity-0 md:hover:opacity-100 md:hover:bg-white md:hover:bg-opacity-80 transition-all ease-in-out duration-300">
+                    <h3 className="text-lg font-normal leading-[22px]">
+                      {collection.node.title}
+                    </h3>
+                  </div>
+                </div>
+              </Link>
+            ))}
           </div>
         ) : null}
       </div>

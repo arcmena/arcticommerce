@@ -2,12 +2,16 @@ import { gql } from 'graphql-request'
 
 const collectionsQuery = gql`
   {
-    collections(first: 2) {
+    collections(first: 10) {
       edges {
         node {
           id
           handle
           title
+          image {
+            url
+            altText
+          }
           products(first: 4) {
             edges {
               node {
